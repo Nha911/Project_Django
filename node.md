@@ -43,7 +43,11 @@ python manage.py migrate
 git add .
 git commit -m "Update project files"
 git push -u origin main
-
+===================================
+git pull origin main --allow-unrelated-histories
+git commit -am "Merge branch 'main' of https://github.com/Nha911/Project_Django"
+git push -u origin main
+=======================================
 git add my_project/static/image/*
 git commit -m "Add static image assets to version control"
 git push -u origin main
