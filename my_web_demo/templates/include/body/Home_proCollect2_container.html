@@ -1,0 +1,135 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 36px 32px;
+        padding: 32px 32px 48px 32px;
+        background: #fff;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px 0 #0001;
+        cursor: pointer;
+        transition: box-shadow 0.2s;
+        background: #eee;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 32px 0 #0002;
+    }
+
+    .card img {
+        width: 100%;
+        height: 340px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s cubic-bezier(.4, 2, .6, 1);
+    }
+
+    .card-label {
+        position: absolute;
+        left: 0;
+        bottom: 18px;
+        width: 100%;
+        text-align: center;
+        background: rgba(34, 34, 34, 0.6);
+        color: #fff;
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        padding: 8px 0;
+        text-shadow: 0 2px 8px #0008;
+        pointer-events: none;
+    }
+</style>
+
+<body>
+    <div class="card-grid">
+        {% load static %}
+        <div class="card" data-label="LIFESTYLE">
+            <img src="{% static 'image/image.png' %}" alt="Lifestyle 1">
+            <!-- <div class="card-label">LIFESTYLE</div> -->
+        </div>
+        <div class="card" data-label="SPORTLIFE">
+            <img src="{% static 'image/image1.png' %}" alt="Sportlife 1">
+            <!-- <div class="card-label">SPORTLIFE</div> -->
+        </div>
+        <div class="card" data-label="SMART CASUAL">
+            <img src="{% static 'image/image2.png' %}" alt="Smart Casual 1">
+            <!-- <div class="card-label">SMART CASUAL</div> -->
+        </div>
+        <div class="card" data-label="LIFESTYLE">
+            <img src="{% static 'image/image3.png' %}" alt="Lifestyle 2">
+            <!-- <div class="card-label">LIFESTYLE</div> -->
+        </div>
+        <div class="card" data-label="SPORTLIFE">
+            <img src="{% static 'image/image4.png' %}" alt="Sportlife 2">
+            <!-- <div class="card-label">SPORTLIFE</div> -->
+        </div>
+        <div class="card" data-label="SMART CASUAL">
+            <img src="{% static 'image/image5.png' %}" alt="Smart Casual 2">
+            <!-- <div class="card-label">SMART CASUAL</div> -->
+        </div>
+    </div>
+    <script>
+        // Animate cards on hover using anime.js
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                anime({
+                    targets: card.querySelector('img'),
+                    scale: 1.08,
+                    duration: 400,
+                    easing: 'easeOutCubic'
+                });
+            });
+            card.addEventListener('mouseleave', function () {
+                anime({
+                    targets: card.querySelector('img'),
+                    scale: 1,
+                    duration: 400,
+                    easing: 'easeOutCubic'
+                });
+            });
+        });
+
+        // Animate cards on scroll into view
+        function animateCardsOnScroll() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, i) => {
+                if (card.getBoundingClientRect().top < window.innerHeight - 40 && !card.classList.contains('shown')) {
+                    card.classList.add('shown');
+                    anime({
+                        targets: card,
+                        opacity: [0, 1],
+                        translateY: [60, 0],
+                        delay: i * 120,
+                        duration: 700,
+                        easing: 'easeOutCubic'
+                    });
+                }
+            });
+        }
+        // Initial state: hide cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(60px)';
+        });
+        window.addEventListener('scroll', animateCardsOnScroll);
+        window.addEventListener('DOMContentLoaded', animateCardsOnScroll);
+    </script>
+</body>

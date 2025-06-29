@@ -1,0 +1,60 @@
+<style>
+            body {
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+        .brands {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0 18px 0;
+            width: 80%;
+            margin: auto;
+            background: #fff;
+            gap: 18px;
+        }
+        .brands img, .brands span {
+            height: 38px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #111;
+            letter-spacing: 2px;
+            opacity: 0.95;
+        }
+        @media (max-width: 900px) {
+            .brands {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .card-grid {
+                padding: 18px 6vw 32px 6vw;
+                gap: 24px 12px;
+            }
+            .card img {
+                height: 220px;
+            }
+        }
+        @media (max-width: 600px) {
+            .brands {
+                font-size: 18px;
+                padding: 18px 0 10px 0;
+            }
+            .card-label {
+                font-size: 16px;
+                padding: 6px 0;
+            }
+            .card img {
+                height: 140px;
+            }
+        }
+</style>
+
+<div class="brands">
+        <span>ZANDO.</span>
+        <span>TN•ELVN</span>
+        <span>GATONI</span>
+        <span>ROUTINE</span>
+        <span>361°</span>
+    </div>

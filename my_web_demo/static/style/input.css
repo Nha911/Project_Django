@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+.navbar {
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  z-index: 10;
+}
+
+.navbar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px 10px 32px;
+}
+
+.navbar-logo {
+  font-size: 38px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-family: Arial Black, Arial, sans-serif;
+  color: #000;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo .dot {
+  color: #000;
+  font-size: 38px;
+  margin-left: 2px;
+}
+
+.navbar-search {
+  display: flex;
+  align-items: center;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0 12px;
+  margin-right: 24px;
+}
+
+.navbar-search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 18px;
+  padding: 10px 0;
+  width: 120px;
+}
+
+.navbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar-icon {
+  font-size: 26px;
+  color: #222;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.navbar-icon.cart {
+  margin-right: 0;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #f00;
+  color: #fff;
+  font-size: 13px;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 0 12px 32px;
+}
+
+.navbar-menu a {
+  color: #222;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.navbar-hamburger {
+  display: none;
+  font-size: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 18px;
+}
+
+@media (max-width:1080px) {
+  .navbar-top {
+    padding: 18px 16px 10px 16px;
+  }
+  
+  .navbar-menu {
+    padding-left: 16px;
+  }
+}
+
+@media (max-width:700px) {
+  .navbar-menu {
+    display: none;
+  }
+  
+  .navbar-hamburger {
+    display: block;
+  }
+  
+  .navbar-search input {
+    width: 60px;
+  }
+}
+
+@media (max-width:500px) {
+  .navbar-top {
+    padding: 12px 6px 8px 6px;
+  }
+  
+  .navbar-logo {
+    font-size: 28px;
+  }
+  
+  .navbar-search input {
+    font-size: 15px;
+  }
+  
+  .navbar-icons {
+    gap: 14px;
+  }
+}
+
+#cartSidebar {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  z-index: 200;
+  transition: right 0.3s cubic-bezier(.4, 0, .2, 1);
+}
+
+#cartSidebar.open {
+  display: block;
+  right: 0;
+}
