@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Promo Banner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a1a4f;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .promo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 450px;
+            width: 80%;
+            margin: auto;
+            position: relative;
+            padding: 48px 16px 56px 16px;
+            background: linear-gradient(180deg, #0a1a4f 0%, #1a3fa0 100%);
+            /* Add background-position for animation */
+            background-size: 200% 100%;
+            background-position: var(--bg-pos, 0%) 0%;
+            transition: background-position 0.2s linear;
+        }
+
+        .promo-banner {
+            /* This is the content layer */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            padding: 40px 20px;
+
+            /* Fade Transition */
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+
+            user-select: none;
+            cursor: grab;
+            z-index: 10;
+            /* Content is on top */
+        }
+
+        /* The class that triggers the fade out */
+        .promo-banner.fade-out {
+            opacity: 0;
+        }
+
+        /* --- BACKGROUND STYLES --- */
+        .promo-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .promo-background .bg-bar {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            /* Make them fade out at the edges to blend */
+            transition: opacity 0.8s ease-in-out;
+            opacity: 0;
+        }
+
+        /* Define the two background themes */
+        /* Sunset Theme (70% OFF) */
+        .bg-theme-sunset .bar-1 {
+            width: 35%;
+            left: 0;
+            background: linear-gradient(to bottom, #232a45, #3c4f76);
+        }
+
+        .bg-theme-sunset .bar-2 {
+            width: 35%;
+            left: 25%;
+            background: linear-gradient(to bottom, #d95e46, #e7824f);
+        }
+
+        .bg-theme-sunset .bar-3 {
+            width: 35%;
+            left: 50%;
+            background: linear-gradient(to bottom, #f39c12, #f5b14e);
+        }
+
+        .bg-theme-sunset .bar-4 {
+            width: 35%;
+            left: 75%;
+            background: linear-gradient(to bottom, #f1c40f, #f9d75f);
+        }
+
+        /* Blue Theme (50% OFF) */
+        .bg-theme-blue .bar-5 {
+            width: 100%;
+            left: 0;
+            background: linear-gradient(180deg, #0a1a4f 0%, #1a3fa0 100%);
+        }
+
+        /* Show the bars for the active theme */
+        .promo-background.active .bg-bar {
+            opacity: 1;
+        }
+
+        /* --- CONTENT STYLES --- */
+        .promo-brands {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            opacity: 0.8;
+        }
+
+        .promo-brands span {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .promo-exclusive {
+            font-size: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        .promo-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 0px;
+            letter-spacing: 1px;
+        }
+
+        .promo-discount {
+            font-size: 130px;
+            font-weight: 900;
+            margin: -10px 0;
+            letter-spacing: -2px;
+        }
+
+        .promo-subtitle {
+            font-size: 24px;
+            font-style: italic;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .promo-tc {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 30px;
+        }
+
+        .promo-btns {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+        }
+
+        .promo-btn {
+            background: transparent;
+            border: 2px solid;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 35px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        /* Button theming */
+        .theme-blue .promo-btn {
+            border-color: #fff;
+            color: #fff;
+        }
+
+        .theme-blue .promo-btn:hover {
+            background-color: #fff;
+            color: #0a1a4f;
+        }
+
+        .theme-sunset .promo-btn {
+            border-color: #f1c40f;
+            color: #f1c40f;
+        }
+
+        .theme-sunset .promo-btn:hover {
+            background-color: #f1c40f;
+            color: #232a45;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .promo-discount {
+                font-size: 100px;
+            }
+
+            .promo-title,
+            .promo-subtitle {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .promo-container {
+                min-height: 450px;
+            }
+
+            .promo-discount {
+                font-size: 70px;
+            }
+
+            .promo-title,
+            .promo-subtitle {
+                font-size: 16px;
+            }
+
+            .promo-brands span {
+                font-size: 12px;
+                gap: 12px;
+            }
+
+            .promo-btn {
+                padding: 10px 25px;
+                font-size: 14px;
+            }
+        }
+                .promo-stars {
+            position: absolute;
+            left: 0; right: 0; top: 0; bottom: 0;
+            pointer-events: none;
+        }
+        .promo-stars span {
+            position: absolute;
+            color: #fff;
+            opacity: 0.7;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="promo-container" id="promoContainer">
+        <div class="promo-stars">
+            <span style="top:-10px;left:5vw;">*</span>
+            <span style="top:30px;left:10vw;">*</span>
+            <span style="top:60px;left:-20vw;">*</span>
+            <span style="top:20px;left:-35vw;">*</span>
+            <span style="top:80px;left:-25vw;">*</span>
+            <span style="top:150px;left:20vw;">*</span>
+            <span style="top:90px;left:30vw;">*</span>
+            <span style="top:120px;left:40vw;">*</span>
+            <span style="top:40px;left:25vw;">*</span>
+        </div>
+        <!-- Background Layer -->
+        <div class="promo-background" id="bgBlue">
+            <div class="bg-bar bar-5"></div>
+        </div>
+        <div class="promo-background" id="bgSunset">
+            <div class="bg-bar bar-1"></div>
+            <div class="bg-bar bar-2"></div>
+            <div class="bg-bar bar-3"></div>
+            <div class="bg-bar bar-4"></div>
+        </div>
+        <!-- Content Layer -->
+        <div class="promo-banner" id="promoBanner">
+            <div class="promo-brands">
+                <span>ZANDO</span><span>TEN-ELEVEN</span><span>GATONI</span><span>ROUTINE</span><span>361°</span>
+            </div>
+            <div class="promo-exclusive" id="promoExclusive">ONLINE EXCLUSIVE</div>
+            <div class="promo-title" id="promoTitle">GET EXTRA UP TO</div>
+            <div class="promo-discount" id="promoDiscount">50% OFF</div>
+            <div class="promo-subtitle" id="promoSubtitle">ON SELECTED DISCOUNT ITEMS</div>
+            <div class="promo-tc">T&Cs APPLY</div>
+            <div class="promo-btns">
+                <button class="promo-btn">SHOP MEN</button>
+                <button class="promo-btn">SHOP WOMEN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. DATA FOR THE SLIDES
+        const slidesData = [
+            {
+                theme: "sunset",
+                title: "GET UP TO",
+                discount: "70% OFF",
+                subtitle: "ON MID-YEAR SALE",
+                exclusive: "" // Hide exclusive text for this slide
+            },
+            {
+                theme: "blue",
+                title: "GET EXTRA UP TO",
+                discount: "50% OFF",
+                subtitle: "ON SELECTED DISCOUNT ITEMS",
+                exclusive: "ONLINE EXCLUSIVE"
+            },
+            {
+                theme: "sunset",
+                title: "FINAL CLEARANCE",
+                discount: "80% OFF",
+                subtitle: "LAST CHANCE TO BUY",
+                exclusive: ""
+            }
+        ];
+
+        // 2. GET REFERENCES TO HTML ELEMENTS
+        const promoContainer = document.getElementById('promoContainer');
+        const promoBanner = document.getElementById('promoBanner');
+        const promoTitle = document.getElementById('promoTitle');
+        const promoDiscount = document.getElementById('promoDiscount');
+        const promoSubtitle = document.getElementById('promoSubtitle');
+        const promoExclusive = document.getElementById('promoExclusive');
+        const bgBlue = document.getElementById('bgBlue');
+        const bgSunset = document.getElementById('bgSunset');
+
+        // 3. STATE VARIABLES
+        let currentIndex = 0;
+        let autoSlideInterval;
+        let isTransitioning = false;
+
+        // 4. CORE FUNCTION TO UPDATE THE BANNER
+        function updateBannerContent(index) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            const slide = slidesData[index];
+
+            // Fade out the content
+            promoBanner.classList.add('fade-out');
+
+            // Fade out the current background
+            if (currentIndex !== index) {
+                const prevSlide = slidesData[currentIndex];
+                if (prevSlide.theme === 'blue') bgBlue.classList.remove('active');
+                if (prevSlide.theme === 'sunset') bgSunset.classList.remove('active');
+            }
+
+            setTimeout(() => {
+                // Update text content
+                promoTitle.textContent = slide.title;
+                promoDiscount.textContent = slide.discount;
+                promoSubtitle.textContent = slide.subtitle;
+                promoExclusive.textContent = slide.exclusive;
+                promoExclusive.style.display = slide.exclusive ? 'block' : 'none';
+
+                // Update theme class for buttons
+                promoBanner.className = 'promo-banner'; // Reset classes
+                promoBanner.classList.add(`theme-${slide.theme}`);
+
+                // Fade in new background
+                if (slide.theme === 'blue') bgBlue.classList.add('active');
+                if (slide.theme === 'sunset') bgSunset.classList.add('active');
+
+                // Fade the content back in
+                promoBanner.classList.remove('fade-out');
+
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 500);
+
+            }, 500); // Wait for fade-out to complete
+        }
+
+        // 5. NAVIGATION & AUTO-SLIDE (Same as before)
+        function showNextSlide() {
+            const nextIndex = (currentIndex + 1) % slidesData.length;
+            updateBannerContent(nextIndex);
+            currentIndex = nextIndex;
+        }
+
+        function showPrevSlide() {
+            const prevIndex = (currentIndex - 1 + slidesData.length) % slidesData.length;
+            updateBannerContent(prevIndex);
+            currentIndex = prevIndex;
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(showNextSlide, 5000);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        }
+
+        // 6. TOUCH, SWIPE, AND MOUSE DRAG LOGIC (Same as before)
+        let touchStartX = 0;
+        function handleSwipe(endX) {
+            const swipeThreshold = 50;
+            if (endX < touchStartX - swipeThreshold) showNextSlide();
+            else if (endX > touchStartX + swipeThreshold) showPrevSlide();
+        }
+
+        promoContainer.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            touchStartX = e.screenX;
+            clearInterval(autoSlideInterval);
+            promoBanner.style.cursor = 'grabbing';
+
+            const onMouseMove = (moveEvent) => { /* Placeholder for drag effect if needed */ };
+            const onMouseUp = (upEvent) => {
+                handleSwipe(upEvent.screenX);
+                resetAutoSlide();
+                promoBanner.style.cursor = 'grab';
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            };
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+
+        promoContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            clearInterval(autoSlideInterval);
+        }, { passive: true });
+
+        promoContainer.addEventListener('touchend', (e) => {
+            handleSwipe(e.changedTouches[0].screenX);
+            resetAutoSlide();
+        });
+
+        // 7. INITIALIZE THE BANNER
+        updateBannerContent(0); // Set initial state
+        startAutoSlide();
+
+    </script>
+</body>
+
+</html>
