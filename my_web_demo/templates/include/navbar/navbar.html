@@ -18,7 +18,7 @@
             background: #ffffff;
             z-index: 10;
         }
-        
+
         .navbar-top {
             display: flex;
             flex-wrap: wrap;
@@ -162,22 +162,92 @@
             }
         }
 
-        #cartSidebar {
-            display: none;
+        /* Removed duplicate #cartSidebar rules; use .cart-sidebar for consistency */
+        .cart-sidebar {
             position: fixed;
             top: 0;
-            right: -320px;
-            width: 300px;
-            height: 100%;
+            right: 0;
+            width: 380px;
+            height: 100vh;
             background: #fff;
-            box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-            z-index: 200;
-            transition: right 0.3s cubic-bezier(.4, 0, .2, 1);
+            color: #000000;
+            box-shadow: -2px 0 16px rgba(0, 0, 0, 0.12);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(.4, 0, .2, 1);
+            display: flex;
+            flex-direction: column;
         }
 
-        #cartSidebar.open {
-            display: block;
-            right: 0;
+        .cart-sidebar.open {
+            transform: translateX(0);
+        }
+
+        .cart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px 12px 24px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 24px;
+        }
+
+        .cart-footer {
+            border-top: 1px solid #eee;
+            padding: 18px 24px;
+            background: #fafbfc;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        .cart-checkout {
+            width: 100%;
+            background: #111;
+            color: #fff;
+            border: none;
+            padding: 14px 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .cart-checkout:hover {
+            background: #222;
+        }
+
+        @media (max-width: 500px) {
+            .cart-sidebar {
+                width: 100vw;
+            }
+        }
+
+        .promo-container {
+            z-index: 5 !important;
         }
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -196,7 +266,8 @@
                 <a href="#">GIRLS</a>
             </div>
             <div class="navbar-logo">
-                <img src="{% static 'image/zando.png' %}" alt="Sportlife 1" style="width: 130px; height: 30px; margin-bottom: 10px;">
+                <img src="{% static 'image/zando.png' %}" alt="Sportlife 1"
+                    style="width: 130px; height: 30px; margin-bottom: 10px;">
             </div>
             <div class="navbar-search">
                 <span class="material-icons" style="color:#888;">search</span>
@@ -213,19 +284,111 @@
                     <span class="material-icons">shopping_bag</span>
                     <span class="cart-badge">0</span>
                 </button>
-                <button class="navbar-icon" title="Account">
+                <button class="navbar-icon" title="Account" onclick="showLoginModal()">
                     <span class="material-icons">person_outline</span>
                 </button>
+                <!-- Login/Register Modal -->
+                <div id="loginModal"
+                    style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:1100; align-items:center; justify-content:center;">
+                    <div id="loginModalContent"
+                        style="background:#fff; padding:32px 24px 24px 24px; border-radius:8px; min-width:320px; max-width:90vw; box-shadow:0 4px 24px rgba(0,0,0,0.18); position:relative; width:350px;">
+                        {% include 'include/account/login.html' %}
+                    </div>
+                </div>
+                <script>
+                    function showLoginModal() {
+                        document.getElementById('loginModal').style.display = 'flex';
+                        document.getElementById('loginModal').style.alignItems = 'center';
+                        document.getElementById('loginModal').style.justifyContent = 'center';
+                        showTab('login');
+                    }
+                    function hideLoginModal() {
+                        document.getElementById('loginModal').style.display = 'none';
+                    }
+                    function showTab(tab) {
+                        const loginTab = document.getElementById('loginTab');
+                        const registerTab = document.getElementById('registerTab');
+                        const loginForm = document.getElementById('loginForm');
+                        const registerForm = document.getElementById('registerForm');
+                        if (tab === 'login') {
+                            loginTab.style.fontWeight = '700';
+                            loginTab.style.borderBottom = '2px solid #111';
+                            registerTab.style.fontWeight = '400';
+                            registerTab.style.borderBottom = '2px solid transparent';
+                            loginForm.style.display = 'block';
+                            registerForm.style.display = 'none';
+                        } else {
+                            registerTab.style.fontWeight = '700';
+                            registerTab.style.borderBottom = '2px solid #111';
+                            loginTab.style.fontWeight = '400';
+                            loginTab.style.borderBottom = '2px solid transparent';
+                            loginForm.style.display = 'none';
+                            registerForm.style.display = 'block';
+                        }
+                    }
+                    function togglePassword(inputId, iconSpan) {
+                        const input = document.getElementById(inputId);
+                        if (input.type === 'password') {
+                            input.type = 'text';
+                            iconSpan.querySelector('.material-icons').textContent = 'visibility_off';
+                        } else {
+                            input.type = 'password';
+                            iconSpan.querySelector('.material-icons').textContent = 'visibility';
+                        }
+                    }
+                    // Prevent all anchor tags in the modal from navigating
+                    document.addEventListener('DOMContentLoaded', function() {
+                        document.querySelectorAll('#loginModal a').forEach(function(a) {
+                            a.addEventListener('click', function(e) {
+                                if (a.getAttribute('href') === '#' || a.getAttribute('href') === '' || a.getAttribute('href') === null) {
+                                    e.preventDefault();
+                                }
+                            });
+                        });
+                        // Prevent all forms in the modal from submitting
+                        document.querySelectorAll('#loginModal form').forEach(function(form) {
+                            form.addEventListener('submit', function(e) {
+                                e.preventDefault();
+                            });
+                        });
+                    });
+                </script>
             </div>
         </div>
+        </div>
     </nav>
-    <!-- Cart Sidebar Placeholder (ensure this exists for JS to work) -->
-    <div id="cartSidebar" style="display:none; position:fixed; top:0; right:0; width:300px; height:100%; background:#fff; box-shadow:-2px 0 8px rgba(0,0,0,0.1); z-index:200;">
-        <h2 style="padding:16px;">Cart</h2>
-        <!-- Cart content goes here -->
-        <button onclick="document.getElementById('cartSidebar').classList.remove('open');" style="position:absolute; top:10px; right:10px;">Close</button>
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <span class="cart-title">Your Cart</span>
+            <button class="cart-close" onclick="toggleCart(false)"><span class="material-icons">close</span></button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be dynamically inserted here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Total</span>
+                <span id="cartTotal">US $0.00</span>
+            </div>
+            <button class="cart-checkout">Proceed to Checkout</button>
+        </div>
     </div>
     <script>
+        // Cart open/close logic
+        function toggleCart(open) {
+            const sidebar = document.getElementById('cartSidebar');
+            if (open) {
+                sidebar.classList.add('open');
+            } else {
+                sidebar.classList.remove('open');
+            }
+        }
+        // Open cart sidebar when cart icon is clicked
+        document.querySelector('.navbar-icon.cart').addEventListener('click', function () {
+            toggleCart(true);
+        });
+        // Toggle cart sidebar visibility
         function toggleMenu() {
             const menu = document.getElementById('navbarMenu');
             if (menu.style.display === 'flex') {
@@ -242,6 +405,30 @@
                 menu.style.padding = '16px 0 16px 0';
             }
         }
+
+        // --- STRONGER MODAL NAVIGATION PREVENTION ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prevent all <a> in #loginModal from navigating (delegated)
+            document.getElementById('loginModal').addEventListener('click', function(e) {
+                let target = e.target;
+                while (target && target !== this) {
+                    if (target.tagName === 'A') {
+                        e.preventDefault();
+                        return false;
+                    }
+                    target = target.parentElement;
+                }
+            });
+            // Prevent all forms in #loginModal from submitting
+            document.getElementById('loginModal').addEventListener('submit', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            // Fallback: set all modal forms' onsubmit to return false
+            document.querySelectorAll('#loginModal form').forEach(function(form) {
+                form.setAttribute('onsubmit', 'return false;');
+            });
+        });
     </script>
 </body>
 
