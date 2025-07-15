@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Account{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
+{% endblock styles %}
+
+{% block main %}
+
+<div class="account-container">
+    <div class="account-header">
+        <h1>Welcome, {{ user.first_name|default:user.username }}!</h1>
+    </div>
+
+    <div class="account-details">
+        <h2>Your Details</h2>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+
+    <div class="account-actions">
+        <h2>Actions</h2>
+        <a href="{% url 'order_history' %}">View Order History</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+</div>
+{% endblock main %}

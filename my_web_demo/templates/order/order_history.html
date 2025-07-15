@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Order History{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/order_history.css' %}">
+{% endblock styles %}
+
+{% block main %}
+
+<div class="order-history-container">
+    <h1 class="mb-4">Your Order History</h1>
+
+    {% if orders %}
+        {% for order in orders %}
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <h5>Order #{{ order.id }}</h5>
+                        <span class="text-muted">Placed on: {{ order.created_at|date:"F d, Y" }}</span>
+                    </div>
+                    <div class="text-end">
+                        <strong>Total: ${{ order.total_price|floatformat:2 }}</strong>
+                    </div>
+                </div>
+                <div class="order-body">
+                    {% for item in order.items.all %}
+                        <div class="order-item">
+                            <img src="{% if item.product.image %}{{ item.product.image.url }}{% else %}https://via.placeholder.com/150{% endif %}" alt="{{ item.product.name }}">
+                            <div class="item-details">
+                                <h6 class="mb-1">{{ item.product.name }}</h6>
+                                <div class="text-muted">
+                                    <span>Quantity: {{ item.quantity }}</span> &middot;
+                                    <span>Price: ${{ item.price|floatformat:2 }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="text-center py-5">
+            <p class="text-muted fs-5">You have not placed any orders yet.</p>
+            <a href="{% url 'home' %}" class="btn btn-primary mt-3">Start Shopping</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock main %}

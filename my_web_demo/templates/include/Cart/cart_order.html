@@ -1,0 +1,24 @@
+<h1>Your Shopping Bag</h1>
+
+{% if cart_items %}
+  {% for item in cart_items %}
+    <div>
+        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width:100px;">
+        <h4>{{ item.product.name }}</h4>
+        <p>Price: ${{ item.product.price }}</p>
+        <p>Quantity: {{ item.quantity }}</p>
+        <p>Size: {{ item.size|default:"N/A" }}</p>
+        <p>Color: {{ item.color|default:"N/A" }}</p>
+        <p><strong>Subtotal: ${{ item.total_price }}</strong></p>
+    </div>
+    <hr>
+  {% endfor %}
+
+  <h3>Total Cost: ${{ total_cost }}</h3>
+  <button>Proceed to Checkout</button>
+
+{% else %}
+  <p>Your shopping bag is empty.</p>
+{% endif %}
+
+<a href="{% url 'shop:wishlist_view' %}">Back to Wishlist</a>

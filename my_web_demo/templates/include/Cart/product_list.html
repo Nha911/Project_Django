@@ -1,0 +1,10 @@
+{% for product in products %}
+  <div>
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:150px;">
+    <h3>{{ product.name }}</h3>
+    <p>${{ product.price }}</p>
+    <!-- The "Add to Wishlist" link -->
+    <a href="{% url 'shop:add_to_wishlist' product.id %}">❤️ Add to Wishlist</a>
+  </div>
+  <hr>
+{% endfor %}

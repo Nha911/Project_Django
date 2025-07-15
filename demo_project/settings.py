@@ -23,6 +23,12 @@ load_dotenv()  # អានឯកសារ .env
 SECRET_KEY = os.getenv('SECRET_KEY')  # យកតម្លៃពី .env
 
 
+AUTH_USER_MODEL = 'my_web_demo.CustomUser'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -32,7 +38,7 @@ SECRET_KEY = 'django-insecure-4^uu!*r@41*q#rlw4ra%c(#v-bdgrkw))7@tjcvq=!a(tom&uk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '172.20.10.7', '192.168.18.57']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '172.20.10.7', '192.168.18.57', '192.168.100.193']
 
 
 
@@ -72,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'my_web_demo.context_processors.cart_context',
             ],
         },
     },
@@ -128,8 +135,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'my_web_demo' / 'static',
-    BASE_DIR / 'my_web_demo' / 'src',
-    BASE_DIR / 'my_web_demo' / 'include',
 ]
 # Add these lines for media (uploaded files)
 MEDIA_URL = '/media/'

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Wishlist{% endblock %}
+
+{% block main %}
+<div class="container my-5">
+    <h1>Your Wishlist</h1>
+    <hr>
+
+    {% if wishlist_items %}
+      <div class="row">
+      {% for item in wishlist_items %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="{{ item.product.image.url }}" class="card-img-top" alt="{{ item.product.name }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.product.name }}</h5>
+              <p class="card-text">${{ item.product.price }}</p>
+              
+              <!-- THIS IS THE "MOVE TO BAG" FORM -->
+              <form action="{% url 'move_to_bag' item.id %}" method="post">
+                {% csrf_token %}
+                
+                <!-- Color Selector -->
+                <div class="mb-3">
+                  <label for="color-{{ item.id }}" class="form-label">Color:</label>
+                  <select name="color" id="color-{{ item.id }}" class="form-select" required>
+                    <option value="Blue">Blue</option>
+                    <option value="Black">Black</option>
+                  </select>
+                </div>
+                
+                <!-- Size Selector -->
+                <div class="mb-3">
+                  <label for="size-{{ item.id }}" class="form-label">Size:</label>
+                  <select name="size" id="size-{{ item.id }}" class="form-select" required>
+                      <option value="">No size</option>
+                      <option value="38">38</option>
+                      <option value="39">39</option>
+                      <option value="40">40</option>
+                  </select>
+                </div>
+                
+                <button type="submit" class="btn btn-dark w-100">Move to bag</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-center py-5">
+        <p class="lead">Your wishlist is empty.</p>
+        <a href="{% url 'home' %}" class="btn btn-dark">Continue Shopping</a>
+      </div>
+    {% endif %}
+
+    {% if wishlist_items %}
+    <div class="text-center mt-4">
+        <a href="{% url 'bag_view' %}" class="btn btn-outline-dark">View My Bag</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock main %}

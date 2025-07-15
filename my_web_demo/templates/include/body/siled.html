@@ -23,7 +23,7 @@
             justify-content: center;
             text-align: center;
             min-height: 450px;
-            width: 80%;
+            width: 100%;
             margin: auto;
             position: relative;
             padding: 48px 16px 56px 16px;
@@ -298,7 +298,7 @@
             <div class="promo-tc">T&Cs APPLY</div>
             <div class="promo-btns">
                 <button class="promo-btn">SHOP MEN</button>
-                <button class="promo-btn">SHOP WOMEN</button>
+                <a href="{% url 'women-extra' %}" class="promo-btn" style="text-decoration: none; color: inherit;">SHOP WOMEN</a>
             </div>
         </div>
     </div>
@@ -418,7 +418,10 @@
         }
 
         promoContainer.addEventListener('mousedown', (e) => {
-            e.preventDefault();
+            // Only prevent default if the target is not a link or a child of a link
+            if (!e.target.closest('a')) {
+                e.preventDefault();
+            }
             touchStartX = e.screenX;
             clearInterval(autoSlideInterval);
             promoBanner.style.cursor = 'grabbing';

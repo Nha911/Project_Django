@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results for "{{ query }}"{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <h2>Search Results for "{{ query }}"</h2>
+    <hr>
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <a href="{% url 'product_detail' product.id %}">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">${{ product.price }}</p>
+                            <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-outline-danger">
+                                <i class="material-icons">{% if product.id in wishlist_product_ids %}favorite{% else %}favorite_border{% endif %}</i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No products found for "{{ query }}".</p>
+    {% endif %}
+</div>
+{% endblock %}

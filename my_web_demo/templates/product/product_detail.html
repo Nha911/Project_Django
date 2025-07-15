@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block main %}
+<style>
+    .product-detail-container {
+        display: flex;
+        max-width: 1200px;
+        margin: 2rem auto;
+        gap: 2rem;
+    }
+
+    .product-images {
+        flex: 0 0 55%;
+        /* Give more space to the image */
+        max-width: 330px;
+        margin-left: 200px;
+        /* Set a max-width based on your request */
+        aspect-ratio: 330 / 530;
+        /* Set desired aspect ratio */
+    }
+
+    .product-images img {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+        /* This will crop the image to fit */
+    }
+
+    .product-info {
+        flex: 1;
+        /* The info section will take the remaining space */
+    }
+
+    .product-info h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .price-section {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .price-section .original-price {
+        text-decoration: line-through;
+        color: #999;
+        margin-right: 1rem;
+    }
+
+    .size-options,
+    .quantity-selector {
+        margin-bottom: 1.5rem;
+    }
+
+    .size-btn {
+        margin-right: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid #ccc;
+        background: #fff;
+        cursor: pointer;
+    }
+    .size-btn.active {
+        background-color: #000;
+        color: #fff;
+        border-color: #000;
+    }
+
+    .add-to-bag-btn {
+        width: 100%;
+        padding: 1rem;
+        background: #000;
+        color: #fff;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .similar-items {
+        margin-top: 3rem;
+        border-top: 1px solid #eee;
+        padding-top: 2rem;
+    }
+</style>
+
+<div class="product-detail-container">
+    <div class="product-images">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/500{% endif %}"
+            alt="{{ product.name }}">
+    </div>
+    <div class="product-info">
+        <h1>{{ product.name }}</h1>
+        <div class="price-section">
+            {% if product.discount > 0 %}
+            <span class="current-price">${{ product.get_discounted_price|floatformat:2 }}</span>
+            <span class="original-price">${{ product.price|floatformat:2 }}</span>
+            {% else %}
+            <span class="current-price">${{ product.price|floatformat:2 }}</span>
+            {% endif %}
+        </div>
+
+        <form action="{% url 'add_to_bag' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <input type="hidden" name="size" id="selected-size" value="S"> <!-- Default to S -->
+
+            <div class="size-options">
+                <strong>Size:</strong>
+                <button type="button" class="size-btn active" data-size="S">S</button>
+                <button type="button" class="size-btn" data-size="M">M</button>
+                <button type="button" class="size-btn" data-size="L">L</button>
+                <button type="button" class="size-btn" data-size="XL">XL</button>
+            </div>
+
+            <div class="quantity-selector">
+                <strong>Quantity:</strong>
+                <input name="quantity" type="number" value="1" min="1" style="width: 60px; padding: 0.5rem;">
+            </div>
+
+            <button type="submit" class="add-to-bag-btn">Add to Bag</button>
+        </form>
+
+        <div class="product-description" style="margin-top: 2rem;">
+            <h4>Product Details</h4>
+            <p>{{ product.description|default:"No description available." }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="similar-items" style="max-width: 1200px; margin: 2rem auto;">
+    <h2>Similar Items</h2>
+    <div class="row">
+        {% for item in similar_products %}
+        <div class="col-md-3">
+            <div class="card">
+                <a href="{% url 'product_detail' item.id %}">
+                    <img src="{% if item.image %}{{ item.image.url }}{% else %}https://via.placeholder.com/200{% endif %}"
+                        class="card-img-top" alt="{{ item.name }}">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <p class="card-text">${{ item.price|floatformat:2 }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No similar items found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock main %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sizeButtons = document.querySelectorAll('.size-btn');
+    const selectedSizeInput = document.getElementById('selected-size');
+
+    sizeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            sizeButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to the clicked button
+            this.classList.add('active');
+            // Update the hidden input's value
+            selectedSizeInput.value = this.dataset.size;
+        });
+    });
+});
+</script>
+{% endblock extra_js %}

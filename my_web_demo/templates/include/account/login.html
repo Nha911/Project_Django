@@ -12,7 +12,7 @@
             background: #fff;
         }
         .container {
-            max-width: 400px;
+            max-width: 500px;
             margin: 0 auto;
             padding: 24px 0 0 0;
         }
@@ -43,6 +43,17 @@
             font-size: 28px;
             cursor: pointer;
             color: #000000;
+        }
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+        }
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
         }
         .form-group {
             margin-bottom: 18px;
@@ -170,14 +181,20 @@
         </div>
         <!-- Login Form -->
         <div id="loginForm">
-            <form>
+            {% if login_error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ login_error }}
+                </div>
+            {% endif %}
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="login-phone">Mobile number</label>
-                    <input type="text" id="login-phone" placeholder="Enter phone number" required>
+                    <input type="text" name="phone" id="login-phone" placeholder="Enter phone number" required>
                 </div>
                 <div class="form-group password-wrapper">
                     <label for="login-password">Password</label>
-                    <input type="password" id="login-password" placeholder="Enter password" required>
+                    <input type="password" name="password" id="login-password" placeholder="Enter password" required>
                     <button type="button" class="toggle-password" onclick="togglePassword('login-password', this)">&#128065;</button>
                 </div>
                 <button type="submit" class="btn">LOGIN</button>
@@ -185,21 +202,22 @@
             <div class="center-text">
                 <span class="link">Forgot your password?</span>
             </div>
-            <div class="or">OR</div>
-            <button class="facebook-btn">
-                <span class="fb-icon">f</span>
-                Continue with Facebook
-            </button>
             <div class="center-text" style="margin-top: 32px;">
                 New to ZANDO? <span class="link" onclick="showTab('register')">Register</span>
             </div>
         </div>
         <!-- Register Form -->
         <div id="registerForm" style="display:none;">
-            <form>
+            {% if register_error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ register_error }}
+                </div>
+            {% endif %}
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
                 <div class="gender-group">
                     <label>Gender (Required)</label>
-                    <input type="radio" name="gender" id="male" value="male">
+                    <input type="radio" name="gender" id="male" value="male" required>
                     <label for="male">Male</label>
                     <input type="radio" name="gender" id="female" value="female">
                     <label for="female">Female</label>
@@ -207,40 +225,49 @@
                 <div class="row">
                     <div class="form-group">
                         <label for="first-name">First name</label>
-                        <input type="text" id="first-name" placeholder="Enter first name" required>
+                        <input type="text" name="first_name" id="first-name" placeholder="Enter first name" required>
                     </div>
                     <div class="form-group">
                         <label for="last-name">Last name</label>
-                        <input type="text" id="last-name" placeholder="Enter last name" required>
+                        <input type="text" name="last_name" id="last-name" placeholder="Enter last name" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="register-phone">Mobile number</label>
-                    <input type="text" id="register-phone" placeholder="Enter phone number" required>
+                    <input type="text" name="phone" id="register-phone" placeholder="Enter phone number" required>
                 </div>
                 <div class="form-group">
                     <label for="register-email">Email</label>
-                    <input type="email" id="register-email" placeholder="Enter email" required>
+                    <input type="email" name="email" id="register-email" placeholder="Enter email" required>
+                </div>
+                <div class="form-group password-wrapper">
+                    <label for="register-password">Password</label>
+                    <input type="password" name="password" id="register-password" placeholder="Enter password" required>
+                    <button type="button" class="toggle-password" onclick="togglePassword('register-password', this)">&#128065;</button>
                 </div>
                 <div class="row">
                     <div class="form-group">
-                        <select id="country">
-                            <option value="">Cambodia</option>
+                        <select id="country" name="country">
+                            <option value="cambodia">Cambodia</option>
+                            <option value="thailand">Thailand</option>
+                            <option value="vietnam">Vietnam</option>
+                            <option value="laos">Laos</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <select id="city" disabled>
+                        <select id="city" name="city">
                             <option value="">City/province</option>
+                            <option value="phnom-penh">Phnom Penh</option>
+                            <option value="siem-reap">Siem Reap</option>
+                            <option value="battambang">Battambang</option>
+                            <option value="kampot">Kampot</option>
+                            <option value="sihanoukville">Sihanoukville</option>
+                            <option value="kompong-cham">Kompong Cham</option>
                         </select>
                     </div>
                 </div>
                 <button type="submit" class="btn">CREATE ACCOUNT</button>
             </form>
-            <div class="or">OR</div>
-            <button class="facebook-btn">
-                <span class="fb-icon">f</span>
-                Continue with Facebook
-            </button>
             <div class="center-text" style="margin-top: 32px;">
                 Already have an account? <span class="link" onclick="showTab('login')">Login</span>
             </div>
@@ -271,7 +298,7 @@
             }
         }
         function closeModal() {
-            window.location.href = '/';
+            document.getElementById('loginModal').style.display = 'none';
         }
     </script>
 </body>
