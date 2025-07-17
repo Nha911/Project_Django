@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,44 +12,65 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         body {
+<<<<<<< HEAD
             margin-top: 0px;
             padding-top: 70px;
             /* Adjust for new navbar height */
         }
 
+=======
+            padding-top: 70px; /* Adjust for new navbar height */
+        }
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
         .main-nav {
             background-color: #fff;
             border-bottom: 1px solid #e9ecef;
             padding: 0 2rem;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
         .main-nav .navbar-brand {
             font-size: 2.5rem;
             font-weight: bold;
             color: #000;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
         .main-nav .nav-link {
             color: #000;
             font-weight: 500;
             margin: 0 10px;
         }
+<<<<<<< HEAD
 
         .main-nav .form-control {
             width: 250px;
         }
 
+=======
+        .main-nav .form-control {
+            width: 250px;
+        }
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
         .nav-icons .nav-link {
             font-size: 1.2rem;
             position: relative;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
         .nav-icons .badge {
             position: absolute;
             top: 0;
             right: -5px;
             font-size: 0.6rem;
         }
+<<<<<<< HEAD
 
         @media screen and (max-width: 896px) {
             #flix-d {
@@ -83,6 +107,11 @@
     {% block styles %}{% endblock %}
 </head>
 
+=======
+    </style>
+    {% block styles %}{% endblock %}
+</head>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light main-nav">
@@ -90,14 +119,25 @@
             <!-- Left Links -->
             <div class="d-flex">
                 <ul class="navbar-nav flex-row">
+<<<<<<< HEAD
                     <li class="nav-item"><a class="nav-link" href="{% url 'category_products' 'women' %}">WOMEN</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'category_products' 'men' %}">MEN</a></li>
                 </ul>
             </div>
+=======
+                    <li class="nav-item"><a class="nav-link" href="#">WOMEN</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">MEN</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">BOYS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">GIRLS</a></li>
+                </ul>
+            </div>
+
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
             <!-- Center Logo -->
             <a class="navbar-brand mx-auto" href="{% url 'home' %}">ZANDO.</a>
 
             <!-- Right Icons -->
+<<<<<<< HEAD
             <div class="d-flex align-items-center" id="flix-d">
                 <form class="d-flex me-3" action="{% url 'search_view' %}" method="get">
                     <input id="search-form" class="form-control me-2" type="search" name="q" placeholder="Search"
@@ -106,6 +146,15 @@
                 <ul class="navbar-nav flex-row align-items-center nav-icons">
                     <li class="nav-item"><a class="nav-link" href="{% url 'wishlist_view' %}"><i
                                 class="material-icons">favorite_border</i></a></li>
+=======
+            <div class="d-flex align-items-center">
+                <form class="d-flex me-3" action="{% url 'search_view' %}" method="get">
+                    <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search" value="{{ query }}">
+                </form>
+                <ul class="navbar-nav flex-row align-items-center nav-icons">
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="material-icons">notifications_none</i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'wishlist_view' %}"><i class="material-icons">favorite_border</i></a></li>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
                             <i class="material-icons">shopping_bag</i>
@@ -113,11 +162,17 @@
                         </a>
                     </li>
                     {% if user.is_authenticated %}
+<<<<<<< HEAD
                     <li class="nav-item"><a class="nav-link" href="{% url 'account' %}"><i
                                 class="material-icons">person_outline</i> {{ user.first_name }}</a></li>
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i
                                 class="material-icons">person_outline</i></a></li>
+=======
+                        <li class="nav-item"><a class="nav-link" href="{% url 'account' %}"><i class="material-icons">person_outline</i> {{ user.first_name }}</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="material-icons">person_outline</i></a></li>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
                     {% endif %}
                 </ul>
             </div>
@@ -139,6 +194,7 @@
         </div>
         <div class="offcanvas-body">
             {% if cart_items %}
+<<<<<<< HEAD
             {% for item in cart_items %}
             <div class="card mb-3">
                 <div class="row g-0">
@@ -208,6 +264,29 @@
             <a href="{% url 'checkout' %}" class="btn btn-dark w-100 mt-3">Proceed to Checkout</a>
             {% else %}
             <p>Your cart is empty.</p>
+=======
+                {% for item in cart_items %}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ item.product.image.url }}" class="img-fluid rounded-start" alt="{{ item.product.name }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.product.name }}</h5>
+                                    <p class="card-text">Quantity: {{ item.quantity }}</p>
+                                    <p class="card-text">Price: ${{ item.total_price }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <hr>
+                <h5>Total: ${{ cart_total_cost }}</h5>
+                <a href="{% url 'checkout' %}" class="btn btn-primary w-100">Checkout</a>
+            {% else %}
+                <p>Your cart is empty.</p>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
             {% endif %}
         </div>
     </div>
@@ -225,5 +304,9 @@
         bg.style.background = `radial-gradient(600px at ${x}px ${y}px, rgba(99,102,241,0.15), transparent 100%)`;
     });
 </script>
+<<<<<<< HEAD
 
 </html>
+=======
+</html>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200

@@ -52,6 +52,8 @@ python manage.py migrate
 git add .
 git commit -m "Update project files"
 git push -u origin main
+git pull origin main
+git push -u origin main
 ===================================
 git pull origin main --allow-unrelated-histories
 git commit -am "Merge branch 'main' of https://github.com/Nha911/Project_Django"

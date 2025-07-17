@@ -20,12 +20,18 @@ urlpatterns = [
     path('wishlist/', views.wishlist_view, name='wishlist_view'),
     # URL to add an item to the wishlist
     path('wishlist/add/<int:product_id>/', views.add_to_wishlist, name='add_to_wishlist'),
+<<<<<<< HEAD
     path('wishlist/remove/<int:wishlist_item_id>/', views.remove_from_wishlist, name='remove_from_wishlist'),
 
     # URL to view the cart/bag
     path('bag/', views.bag_view, name='bag_view'),
     path('bag/remove/<int:cart_item_id>/', views.remove_from_bag, name='remove_from_bag'),
     path('bag/update/<int:item_id>/', views.update_bag, name='update_bag'),
+=======
+
+    # URL to view the cart/bag
+    path('bag/', views.bag_view, name='bag_view'),
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
     path('checkout/', views.checkout_view, name='checkout'),
     # URL to move item from wishlist to bag
     path('bag/move-from-wishlist/<int:wishlist_item_id>/', views.move_to_bag, name='move_to_bag'),
@@ -43,10 +49,16 @@ urlpatterns = [
     # Authentication URLs
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
+<<<<<<< HEAD
     path('logout/', views.logout_view, name='logout'),
     path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     # Add other password reset URLs as needed
     path('products/discount/<str:discount_value>/', views.discount_products_view, name='discount_products'),
     path('products/discount/<str:discount_value>/<slug:category_slug>/', views.discount_products_view, name='discount_products_by_category'),
     path('category/<slug:category_slug>/', views.category_products_view, name='category_products'),
+=======
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    # Add other password reset URLs as needed
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 ]

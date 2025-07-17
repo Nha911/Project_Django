@@ -1,0 +1,232 @@
+    <header class="header">
+        <div class="container" >
+            <div class="header-content">
+                <button class="hamburger-menu" id="hamburgerMenu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+
+                <div class="logo">
+                    <img src="https://ext.same-assets.com/2884684745/183045854.png" alt="ZANDO" class="logo-img">
+                </div>
+
+                <div class="search-container">
+                    <input style="width: 300px;" type="text" placeholder="Search" class="search-input">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" />
+                        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
+
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor"
+                                stroke-width="2" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </button>
+
+                    <button class="wishlist-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                                stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </button>
+
+                    <button class="cart-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="9" cy="21" r="1" stroke="currentColor" stroke-width="2" />
+                            <circle cx="20" cy="21" r="1" stroke="currentColor" stroke-width="2" />
+                            <path d="m1 1 4 4 0 12a2 2 0 0 0 2 2h12" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                        <span class="cart-count">0</span>
+                    </button>
+
+                    <button class="navbar-icon" title="Account" onclick="showLoginModal()">
+                        <span class="material-icons">person_outline</span>
+                    </button>
+                    {% if user.is_authenticated %}
+                    <div class="user-menu-container">
+                        <button class="user-btn">{{ user.username }}</button>
+                        <div class="user-dropdown">
+                            <a href="{% url 'order_history' %}">Order History</a>
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <button class="login-btn" onclick="showLoginModal()">LOGIN</button>
+                    <button class="register-btn" onclick="showLoginModal()">REGISTER</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <span class="cart-title">Your Cart</span>
+            <button class="cart-close" onclick="toggleCart(false)"><span class="material-icons">close</span></button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be dynamically inserted here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Total</span>
+                <span id="cartTotal">US $0.00</span>
+            </div>
+            <button class="cart-checkout">Proceed to Checkout</button>
+        </div>
+    </div>
+    <!-- Modal code (put this near the end of <body>) -->
+    <style>
+        #loginModal {
+            display: none;
+            z-index: 9999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.35);
+            align-items: center;
+            justify-content: center;
+        }
+
+        #loginModalContent {
+            position: relative;
+            background: #fff;
+            padding: 32px 24px 24px 24px;
+            border-radius: 8px;
+            min-width: 320px;
+            max-width: 90vw;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+            width: 350px;
+        }
+
+        #loginModalContent button[onclick="hideLoginModal()"] {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 400px) {
+            #loginModalContent {
+                min-width: 90vw;
+                width: 90vw;
+                padding: 16px 4vw 16px 4vw;
+            }
+        }
+    </style>
+    <div id="loginModal">
+        <div id="loginModalContent">
+            {% include 'include/account/login.html' %}
+        </div>
+    </div>
+    <script>
+        // Cart open/close logic
+        function toggleCart(open) {
+            const sidebar = document.getElementById('cartSidebar');
+            if (open) {
+                sidebar.classList.add('open');
+            } else {
+                sidebar.classList.remove('open');
+            }
+        }
+        // Open cart sidebar when cart icon is clicked
+        document.querySelector('.navbar-icon.cart').addEventListener('click', function () {
+            toggleCart(true);
+        });
+        // Toggle cart sidebar visibility
+        function toggleMenu() {
+            const menu = document.getElementById('navbarMenu');
+            if (menu.style.display === 'flex') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'flex';
+                menu.style.flexDirection = 'column';
+                menu.style.background = '#928DAB';
+                menu.style.position = 'absolute';
+                menu.style.top = '130px';
+                menu.style.left = '0';
+                menu.style.width = '100%';
+                menu.style.zIndex = '100';
+                menu.style.padding = '16px 0 16px 0';
+            }
+        }
+
+        // --- STRONGER MODAL NAVIGATION PREVENTION ---
+        document.addEventListener('DOMContentLoaded', function () {
+            // Prevent all <a> in #loginModal from navigating (delegated)
+            document.getElementById('loginModal').addEventListener('click', function (e) {
+                let target = e.target;
+                while (target && target !== this) {
+                    if (target.tagName === 'A') {
+                        e.preventDefault();
+                        return false;
+                    }
+                    target = target.parentElement;
+                }
+            });
+            // Prevent all forms in #loginModal from submitting
+            document.getElementById('loginModal').addEventListener('submit', function (e) {
+                e.preventDefault();
+                return false;
+            });
+            // Fallback: set all modal forms' onsubmit to return false
+            document.querySelectorAll('#loginModal form').forEach(function (form) {
+                form.setAttribute('onsubmit', 'return false;');
+            });
+        });
+
+        // Show modal when login or register button is clicked
+        document.addEventListener('DOMContentLoaded', function () {
+            var loginModal = document.getElementById('loginModal');
+            var loginBtn = document.querySelector('.login-btn');
+            var registerBtn = document.querySelector('.register-btn');
+
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    loginModal.style.display = 'flex';
+                    showTab('login');
+                });
+            }
+            if (registerBtn) {
+                registerBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    loginModal.style.display = 'flex';
+                    showTab('register');
+                });
+            }
+
+            // Optional: Hide modal when clicking outside the modal content
+            loginModal.addEventListener('click', function (e) {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+            });
+        });
+
+        function showLoginModal() {
+            document.getElementById('loginModal').style.display = 'flex';
+            document.getElementById('loginModal').style.alignItems = 'center';
+            document.getElementById('loginModal').style.justifyContent = 'center';
+            // Optionally, show login or register tab here
+        }
+        function hideLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+        document.getElementById('loginModal').addEventListener('click', function (e) {
+            if (e.target === this) hideLoginModal();
+        });
+    </script>

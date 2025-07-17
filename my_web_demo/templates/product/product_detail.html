@@ -16,6 +16,10 @@
         flex: 0 0 55%;
         /* Give more space to the image */
         max-width: 330px;
+<<<<<<< HEAD
+=======
+        margin-left: 200px;
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
         /* Set a max-width based on your request */
         aspect-ratio: 330 / 530;
         /* Set desired aspect ratio */
@@ -47,6 +51,7 @@
     .price-section .original-price {
         text-decoration: line-through;
         color: #999;
+<<<<<<< HEAD
         margin-left: 10px;
     }
 
@@ -58,6 +63,9 @@
         font-size: 0.9rem;
         font-weight: bold;
         margin-left: 10px;
+=======
+        margin-right: 1rem;
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
     }
 
     .size-options,
@@ -106,7 +114,10 @@
             {% if product.discount > 0 %}
             <span class="current-price">${{ product.get_discounted_price|floatformat:2 }}</span>
             <span class="original-price">${{ product.price|floatformat:2 }}</span>
+<<<<<<< HEAD
             <span class="discount-badge">{{ product.discount }}% OFF</span>
+=======
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
             {% else %}
             <span class="current-price">${{ product.price|floatformat:2 }}</span>
             {% endif %}
@@ -134,10 +145,13 @@
         </form>
 
         <div class="product-description" style="margin-top: 2rem;">
+<<<<<<< HEAD
             <h4>Product Model</h4>
             <p>{{ product.about|default:"No description available." }}</p>
         </div>
         <div class="product-description" style="margin-top: 2rem;">
+=======
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
             <h4>Product Details</h4>
             <p>{{ product.description|default:"No description available." }}</p>
         </div>
@@ -156,8 +170,12 @@
                 </a>
                 <div class="card-body">
                     <h5 class="card-title">{{ item.name }}</h5>
+<<<<<<< HEAD
                     <p class="card-text">${{ item.price|floatformat:2 }} <span class="discount-badge">{{ item.discount }}% OFF</span></p>
                     
+=======
+                    <p class="card-text">${{ item.price|floatformat:2 }}</p>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
                 </div>
             </div>
         </div>
@@ -168,7 +186,11 @@
 </div>
 {% endblock main %}
 
+<<<<<<< HEAD
 {% block scripts %}
+=======
+{% block extra_js %}
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const sizeButtons = document.querySelectorAll('.size-btn');
@@ -186,4 +208,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+<<<<<<< HEAD
 {% endblock scripts %}
+=======
+{% endblock extra_js %}
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200

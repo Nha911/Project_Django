@@ -27,25 +27,32 @@ class Brand(models.Model):
 
 
 class Product(models.Model):
+<<<<<<< HEAD
     CATEGORY_CHOICES = [
         ('women', 'WOMEN'),
         ('men', 'MEN'),
         ('boys', 'BOYS'),
         ('girls', 'GIRLS'),
     ]
+=======
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2, help_text="This should be the original price.")
     discount = models.IntegerField(default=0, help_text="Discount percentage (e.g., 20 for 20% off)")
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True)
+<<<<<<< HEAD
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, blank=True, null=True)
     about = models.TextField(blank=True, null=True, help_text="Additional details about the product.")
     description = models.TextField(blank=True, null=True, help_text="Detailed product description.")
+=======
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 
     @property
     def original_price(self):
         return self.price
 
+<<<<<<< HEAD
     def get_discounted_price(self):
         if self.discount > 0:
             return (self.price - self.get_discount_amount()).quantize(Decimal('0.01'))
@@ -57,6 +64,15 @@ class Product(models.Model):
             return (self.price * discount_decimal).quantize(Decimal('0.01'))
         return Decimal('0.00')
 
+=======
+    @property
+    def get_discounted_price(self):
+        if self.discount > 0:
+            discount_amount = self.price * (Decimal(self.discount) / Decimal(100))
+            return (self.price - discount_amount).quantize(Decimal('0.01'))
+        return self.price.quantize(Decimal('0.01'))
+
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
     def __str__(self):
         return self.name
 
@@ -89,12 +105,17 @@ class CartItem(models.Model):
 
     # A property to easily calculate the total price for this cart item
     @property
+<<<<<<< HEAD
     def unit_price(self):
         return self.product.get_discounted_price()
 
     @property
     def total_price(self):
         return self.unit_price * self.quantity
+=======
+    def total_price(self):
+        return self.product.price * self.quantity
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 
 class CustomUser(AbstractUser):
     GENDER_CHOICES = [
@@ -103,7 +124,11 @@ class CustomUser(AbstractUser):
     ]
     
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+<<<<<<< HEAD
     phone_number = models.CharField(max_length=20, blank=True, null=True)
+=======
+    phone = models.CharField(max_length=20)
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
     country = models.CharField(max_length=50, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     

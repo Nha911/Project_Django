@@ -190,7 +190,11 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="login-phone">Mobile number</label>
+<<<<<<< HEAD:my_web_demo/templates/account/login.html
                     <input type="text" name="username" id="login-phone" placeholder="Enter phone number" required>
+=======
+                    <input type="text" name="phone" id="login-phone" placeholder="Enter phone number" required>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200:my_web_demo/templates/include/account/login.html
                 </div>
                 <div class="form-group password-wrapper">
                     <label for="login-password">Password</label>
@@ -234,7 +238,11 @@
                 </div>
                 <div class="form-group">
                     <label for="register-phone">Mobile number</label>
+<<<<<<< HEAD:my_web_demo/templates/account/login.html
                     <input type="text" name="phone_number" id="register-phone" placeholder="Enter phone number" required>
+=======
+                    <input type="text" name="phone" id="register-phone" placeholder="Enter phone number" required>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200:my_web_demo/templates/include/account/login.html
                 </div>
                 <div class="form-group">
                     <label for="register-email">Email</label>
@@ -298,7 +306,11 @@
             }
         }
         function closeModal() {
+<<<<<<< HEAD:my_web_demo/templates/account/login.html
             window.location.href = "{% url 'home' %}";
+=======
+            document.getElementById('loginModal').style.display = 'none';
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200:my_web_demo/templates/include/account/login.html
         }
     </script>
 </body>

@@ -1,7 +1,11 @@
 # --- Login View ---
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
+<<<<<<< HEAD
 from django.contrib.auth import authenticate, login, logout
+=======
+from django.contrib.auth import authenticate, login
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponseRedirect
@@ -9,20 +13,32 @@ from .models import Product, Wishlist, CartItem, Order, OrderItem, CustomUser
 
 def login_view(request):
     if request.method == 'POST':
+<<<<<<< HEAD
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+=======
+        phone = request.POST.get('phone')
+        password = request.POST.get('password')
+        user = authenticate(request, username=phone, password=password)
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
             # Invalid login
+<<<<<<< HEAD
             return render(request, 'account/login.html', {'login_error': 'Invalid phone number or password.', 'show_login': True})
     return render(request, 'account/login.html', {'show_login': True})
+=======
+            return render(request, 'include/account/login.html', {'login_error': 'Invalid phone number or password.', 'show_login': True})
+    return render(request, 'include/account/login.html', {'show_login': True})
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 
 # Create your views here.
 def Home(request):
     from django.db.models import Q
+<<<<<<< HEAD
 
     # Fetch products for different discount sections
     products_50_off = Product.objects.filter(discount=50)[:8]
@@ -46,6 +62,20 @@ def Home(request):
         'womens_fashion': womens_fashion,
         'footwear': footwear,
         'wishlist_product_ids': wishlist_product_ids,
+=======
+    # Fetch products for different sections
+    discounted_products = Product.objects.filter(discount__gt=0).order_by('-discount')[:8]
+    # Sort by descending ID to get the newest products
+    new_arrivals = Product.objects.order_by('-id')[:8]
+    # Filter for women's fashion items by common keywords in the name
+    womens_fashion = Product.objects.filter(Q(name__icontains='Dress') | Q(name__icontains='Top') | Q(name__icontains='Skirt') | Q(name__icontains='Heels')).order_by('?')[:8]
+    footwear = Product.objects.filter(Q(name__icontains='shoe') | Q(name__icontains='sneaker') | Q(name__icontains='boot') | Q(name__icontains='sandal')).order_by('?')[:8]
+    context = {
+        'discounted_products': discounted_products,
+        'new_arrivals': new_arrivals,
+        'womens_fashion': womens_fashion,
+        'footwear': footwear,
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
     }
     return render(request, 'homeclone.html', context)
 
@@ -66,6 +96,7 @@ def product_list_view(request):
 
 @login_required
 def wishlist_view(request):
+<<<<<<< HEAD
     wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
     return render(request, 'include/Cart/wishlist.html', {'wishlist_items': wishlist_items})
 
@@ -76,6 +107,12 @@ def remove_from_wishlist(request, wishlist_item_id):
     return redirect('wishlist_view')
 
 @login_required
+=======
+    wishlist_items = Wishlist.objects.filter(user=request.user)
+    return render(request, 'include/Cart/wishlist.html', {'wishlist_items': wishlist_items})
+
+@login_required
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 def add_to_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     # The 'get_or_create' method prevents duplicate entries
@@ -88,6 +125,7 @@ def add_to_wishlist(request, product_id):
 @login_required
 def bag_view(request):
     cart_items = CartItem.objects.filter(user=request.user)
+<<<<<<< HEAD
 
     total_original_price = sum(item.product.price * item.quantity for item in cart_items)
     total_savings = sum(item.product.get_discount_amount() * item.quantity for item in cart_items)
@@ -106,11 +144,17 @@ def remove_from_bag(request, cart_item_id):
     cart_item = get_object_or_404(CartItem, id=cart_item_id, user=request.user)
     cart_item.delete()
     return redirect('bag_view')
+=======
+    # Calculate the total cost of all items in the bag
+    total_cost = sum(item.total_price for item in cart_items)
+    return render(request, 'order/bag.html', {'cart_items': cart_items, 'total_cost': total_cost})
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 
 @login_required
 def add_to_bag(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
+<<<<<<< HEAD
         quantity = int(request.POST.get('quantity', 1))
         size = request.POST.get('size')
         product = get_object_or_404(Product, id=product_id)
@@ -143,6 +187,25 @@ def add_to_bag(request):
                 size=size,
                 quantity=quantity
             )
+=======
+        quantity = request.POST.get('quantity', 1)
+        size = request.POST.get('size')
+        product = get_object_or_404(Product, id=product_id)
+
+        cart_item, created = CartItem.objects.get_or_create(
+            user=request.user,
+            product=product,
+            size=size,
+            # Add color if you have it, for now, we'll leave it out
+            # color=request.POST.get('color'), 
+            defaults={'quantity': quantity}
+        )
+
+        if not created:
+            # If the item is already in the cart, just update the quantity
+            cart_item.quantity += int(quantity)
+            cart_item.save()
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 
         return redirect('bag_view')
     # Redirect to home if not a POST request
@@ -178,6 +241,7 @@ def move_to_bag(request, wishlist_item_id):
     return redirect('wishlist_view')
 
 @login_required
+<<<<<<< HEAD
 def update_bag(request, item_id):
     if request.method == 'POST':
         cart_item_to_update = get_object_or_404(CartItem, id=item_id, user=request.user)
@@ -216,6 +280,8 @@ def update_bag(request, item_id):
     return redirect('bag_view')
 
 @login_required
+=======
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 def checkout_view(request):
     cart_items = CartItem.objects.filter(user=request.user)
     total_cost = sum(item.total_price for item in cart_items)
@@ -245,7 +311,11 @@ def checkout_view(request):
         'cart_items': cart_items,
         'total_cost': total_cost
     }
+<<<<<<< HEAD
     return render(request, 'shop/checkout.html', context)
+=======
+    return render(request, 'order/checkout.html', context)
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 
 def section_view(request):
     return render(request, 'include/Cart/section.html')
@@ -340,24 +410,40 @@ def register_view(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
+<<<<<<< HEAD
         phone_number = request.POST.get('phone_number')
+=======
+        phone = request.POST.get('phone')
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
         email = request.POST.get('email')
         password = request.POST.get('password')
         gender = request.POST.get('gender')
         country = request.POST.get('country')
         city = request.POST.get('city')
 
+<<<<<<< HEAD
         if CustomUser.objects.filter(username=phone_number).exists():
             return render(request, 'include/account/login.html', {'register_error': 'Phone already registered.', 'show_register': True})
         
         user = CustomUser.objects.create_user(
             username=phone_number, 
+=======
+        if CustomUser.objects.filter(username=phone).exists():
+            return render(request, 'include/account/login.html', {'register_error': 'Phone already registered.', 'show_register': True})
+        
+        user = CustomUser.objects.create_user(
+            username=phone, 
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
             email=email, 
             password=password, 
             first_name=first_name, 
             last_name=last_name,
             gender=gender,
+<<<<<<< HEAD
             phone_number=phone_number,
+=======
+            phone=phone,
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
             country=country,
             city=city
         )
@@ -365,6 +451,7 @@ def register_view(request):
         login(request, user)
         # Redirect to the new account page
         return redirect('account')
+<<<<<<< HEAD
     return redirect('/')
 
 def logout_view(request):
@@ -411,3 +498,6 @@ def discount_products_view(request, discount_value, category_slug=None):
         'current_category': category_slug,
     }
     return render(request, 'product/discount_products.html', context)
+=======
+    return redirect('/')
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200

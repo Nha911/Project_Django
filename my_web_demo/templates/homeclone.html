@@ -352,7 +352,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+<<<<<<< HEAD
         z-index: 2000; /* Ensure it's on top of the header */
+=======
+        z-index: 1000;
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
         opacity: 1;
         visibility: visible;
     }
@@ -552,6 +556,23 @@
         }
     }
 </style>
+<<<<<<< HEAD
+=======
+<!-- Shop Preference Modal -->
+<div class="modal-overlay hidden" id="modalOverlay">
+    <div class="modal">
+        <h2 class="modal-title">Shop Preference</h2>
+        <div class="preference-options">
+            <button class="preference-btn" data-preference="women">Women</button>
+            <button class="preference-btn" data-preference="men">Men</button>
+            <button class="preference-btn" data-preference="boys">Boys</button>
+            <button class="preference-btn" data-preference="girls">Girls</button>
+        </div>
+        <button class="ok-btn" id="okBtn">OK</button>
+    </div>
+</div>
+
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 <!-- Hero Section -->
 <section class="hero">
     <div class="hero-content">
@@ -589,10 +610,43 @@
     </div>
 </section>
 
+<<<<<<< HEAD
+=======
+<!-- Product Categories -->
+<section class="product-categories">
+    <div class="container">
+        <div class="categories-grid">
+            <div class="category-card">
+                <img src="https://ext.same-assets.com/2884684745/4159469437.jpeg" alt="LIFESTYLE" class="category-img">
+                <div class="category-overlay">
+                    <h3 class="category-title">LIFESTYLE</h3>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://ext.same-assets.com/2884684745/90516060.jpeg" alt="SPORTLIFE" class="category-img">
+                <div class="category-overlay">
+                    <h3 class="category-title">SPORTLIFE</h3>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://ext.same-assets.com/2884684745/1771594967.jpeg" alt="SMART CASUAL"
+                    class="category-img">
+                <div class="category-overlay">
+                    <h3 class="category-title">SMART CASUAL</h3>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 <!-- Product Sections -->
 <section class="product-section">
     <div class="container">
         <div class="section-header">
+<<<<<<< HEAD
             <h2 class="section-title">50% OFF</h2>
             <a href="{% url 'discount_products' '50' %}" class="shop-more-btn">SHOP MORE</a>
         </div>
@@ -644,6 +698,14 @@
         </div>
         <div class="products-grid">
             {% for product in products_70_off %}
+=======
+            <h2 class="section-title">⚡ Extra Up to 50% Off – Go!</h2>
+            <button class="shop-more-btn">Shop More</button>
+        </div>
+
+        <div class="products-grid">
+            {% for product in discounted_products %}
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
             <div class="product-card">
                 <div class="product-image-container">
                     <a href="{% url 'product_detail' product.id %}">
@@ -660,6 +722,7 @@
                 <div class="product-info">
                     <h3 class="product-title"><a href="{% url 'product_detail' product.id %}"
                             class="text-decoration-none text-dark">{{ product.name }}</a></h3>
+<<<<<<< HEAD
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="price-container">
                             <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
@@ -670,11 +733,19 @@
                         <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-outline-danger btn-sm">
                             <i class="material-icons">{% if product.id in wishlist_product_ids %}favorite{% else %}favorite_border{% endif %}</i>
                         </a>
+=======
+                    <div class="price-container">
+                        <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
+                        {% if product.discount > 0 %}
+                        <span class="original-price">US ${{ product.original_price|floatformat:2 }}</span>
+                        {% endif %}
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
                     </div>
                 </div>
             </div>
             {% empty %}
             <div class="col-12">
+<<<<<<< HEAD
                 <p class="text-center text-muted">No 70% off products available at the moment.</p>
             </div>
             {% endfor %}
@@ -722,6 +793,9 @@
             {% empty %}
             <div class="col-12">
                 <p class="text-center text-muted">No other discounted products available at the moment.</p>
+=======
+                <p class="text-center text-muted">No discounted products available at the moment.</p>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
             </div>
             {% endfor %}
         </div>
@@ -754,6 +828,7 @@
                 <div class="product-info">
                     <h3 class="product-title"><a href="{% url 'product_detail' product.id %}"
                             class="text-decoration-none text-dark">{{ product.name }}</a></h3>
+<<<<<<< HEAD
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="price-container">
                             <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
@@ -765,6 +840,13 @@
                         <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-outline-danger btn-sm">
                             <i class="material-icons">{% if product.id in wishlist_product_ids %}favorite{% else %}favorite_border{% endif %}</i>
                         </a>
+=======
+                    <div class="price-container">
+                        <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
+                        {% if product.discount > 0 %}
+                        <span class="original-price">US ${{ product.original_price|floatformat:2 }}</span>
+                        {% endif %}
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
                     </div>
                 </div>
             </div>
@@ -778,7 +860,11 @@
 </section>
 
 <!-- Exclusive Sale Section -->
+<<<<<<< HEAD
 <!-- <section class="product-section">
+=======
+<section class="product-section">
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
     <div class="container">
         <div class="section-header">
             <h2 class="section-title">⚡ Exclusive - Up to 70% Off!</h2>
@@ -803,6 +889,7 @@
                 <div class="product-info">
                     <h3 class="product-title"><a href="{% url 'product_detail' product.id %}"
                             class="text-decoration-none text-dark">{{ product.name }}</a></h3>
+<<<<<<< HEAD
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="price-container">
                             <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
@@ -813,6 +900,13 @@
                         <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-outline-danger btn-sm">
                             <i class="material-icons">{% if product.id in wishlist_product_ids %}favorite{% else %}favorite_border{% endif %}</i>
                         </a>
+=======
+                    <div class="price-container">
+                        <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
+                        {% if product.discount > 0 %}
+                        <span class="original-price">US ${{ product.original_price|floatformat:2 }}</span>
+                        {% endif %}
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
                     </div>
                 </div>
             </div>
@@ -823,10 +917,17 @@
             {% endfor %}
         </div>
     </div>
+<<<<<<< HEAD
 </section> -->
 
 <!-- Footwear Section -->
 <!-- <section class="product-section">
+=======
+</section>
+
+<!-- Footwear Section -->
+<section class="product-section">
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
     <div class="container">
         <div class="section-header">
             <h2 class="section-title">👟 New Footwear Drop !!</h2>
@@ -851,6 +952,7 @@
                 <div class="product-info">
                     <h3 class="product-title"><a href="{% url 'product_detail' product.id %}"
                             class="text-decoration-none text-dark">{{ product.name }}</a></h3>
+<<<<<<< HEAD
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="price-container">
                             <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
@@ -861,6 +963,13 @@
                         <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-outline-danger btn-sm">
                             <i class="material-icons">{% if product.id in wishlist_product_ids %}favorite{% else %}favorite_border{% endif %}</i>
                         </a>
+=======
+                    <div class="price-container">
+                        <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
+                        {% if product.discount > 0 %}
+                        <span class="original-price">US ${{ product.original_price|floatformat:2 }}</span>
+                        {% endif %}
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
                     </div>
                 </div>
             </div>
@@ -871,7 +980,11 @@
             {% endfor %}
         </div>
     </div>
+<<<<<<< HEAD
 </section> -->
+=======
+</section>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 
 <!-- Footer -->
 <footer class="footer">

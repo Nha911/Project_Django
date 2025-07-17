@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .footer {
+            background: #ffffff;
+            border-top: 1px solid #ddd;
+            padding: 32px 0 0 0;
+            font-family: Arial, sans-serif;
+            color: #111;
+        }
+        .footer-main {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            max-width: 1800px;
+            margin-bottom: 30px;
+            gap: 20px 30px;
+        }
+        .footer-col {
+            min-width: 180px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .footer-col h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-col ul li {
+            margin-bottom: 12px;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-col img.qr {
+            width: 110px;
+            height: 110px;
+            margin-bottom: 8px;
+        }
+        .footer-payments {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        .footer-payments img {
+            height: 36px;
+            background: #fff;
+            border-radius: 4px;
+            padding: 2px 6px;
+        }
+        .footer-bottom {
+            border-top: 2px solid #ddd;
+            margin-top: 32px;
+            padding: 16px 32px 12px 32px;
+            text-align: center;
+        }
+        .footer-scrollup {
+            position: absolute;
+            right: 32px;
+            top: -32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-scrollup-btn {
+            background: #fff;
+            border: 1px solid #aaa;
+            border-radius: 24px;
+            width: 36px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        @media (max-width: 900px) {
+            .footer-main {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                padding: 0 12px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 16px 12px 12px 12px;
+            }
+            .footer-scrollup {
+                right: 12px;
+            }
+        }
+        @media screen and (max-width: 600px) {
+            .footer-main {
+                padding: 0 8px;
+            }
+            .footer-col h3 {
+                font-size: 18px;
+            }
+            .footer-col ul li {
+                font-size: 16px;
+            }
+            .footer-bottom {
+                font-size: 14px;
+            }
+            .footer-scrollup-btn {
+                width: 32px;
+                height: 40px;
+                font-size: 20px;
+            }
+        }
+        @media screen and (max-width: 400px) {
+            .footer-main{
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4 class="footer-title">ZANDO APP</h4>
+          <div class="qr-code">
+            <img src="https://ext.same-assets.com/2884684745/3749218740.png" alt="QR Code" class="qr-img">
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h4 class="footer-title">LOYALTY</h4>
+          <ul class="footer-links">
+            <li><a href="#">Membership & Benefits</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4 class="footer-title">FOLLOW US</h4>
+          <ul class="footer-links">
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">TikTok</a></li>
+            <li><a href="#">Youtube</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4 class="footer-title">CUSTOMER SERVICES</h4>
+          <ul class="footer-links">
+            <li><a href="#">Online exchange policy</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">FAQs & guides</a></li>
+            <li><a href="#">Find a store</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4 class="footer-title">CONTACT US</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:info@zandokh.com">info@zandokh.com</a></li>
+            <li><a href="tel:+85508199716">(+855) 081 999 716</a></li>
+            <li><a href="tel:+85506133030">(+855) 061 330 330</a></li>
+            <li><a href="#">Telegram</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4 class="footer-title">WE ACCEPT</h4>
+          <div class="payment-methods">
+            <img src="https://ext.same-assets.com/2884684745/3165199152.png" alt="Payment Methods" class="payment-img">
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2015 - 2025 Zando. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -4,14 +4,22 @@ from .models import Product, ProductImage, Wishlist, CartItem, CustomUser, Brand
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
+<<<<<<< HEAD
     list_display = ('username', 'email', 'first_name', 'last_name', 'phone_number', 'is_staff')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'gender', 'phone_number', 'country', 'city')}),
+=======
+    list_display = ('username', 'email', 'first_name', 'last_name', 'phone', 'is_staff')
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'gender', 'phone', 'country', 'city')}),
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
 
+<<<<<<< HEAD
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'brand', 'price', 'discount', 'category')
     list_filter = ('category', 'brand')
@@ -29,6 +37,9 @@ class ProductAdmin(admin.ModelAdmin):
     )
 
 admin.site.register(Product, ProductAdmin)
+=======
+admin.site.register(Product)
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 admin.site.register(ProductImage)
 admin.site.register(Wishlist)
 admin.site.register(CartItem)

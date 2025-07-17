@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promo Banner</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a1a4f;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+        .promo-banner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 380px;
+            width: 80%;
+            margin: auto;
+            position: relative;
+            padding: 48px 16px 56px 16px;
+            background: linear-gradient(180deg, #e12154 0%, #efab3c 100%);
+            /* Add background-position for animation */
+            background-size: 200% 100%;
+            background-position: var(--bg-pos, 0%) 0%;
+            transition: background-position 0.2s linear;
+        }
+        .promo-brands {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .promo-brands span {
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            opacity: 0.85;
+        }
+        .promo-exclusive {
+            font-size: 13px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+        .promo-title {
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 0px;
+            letter-spacing: 1px;
+        }
+        .promo-discount {
+            font-size: 80px;
+            font-weight: bold;
+            margin: 0 0 8px 0;
+            letter-spacing: 2px;
+        }
+        .promo-subtitle {
+            font-size: 22px;
+            font-style: italic;
+            margin-bottom: 18px;
+            opacity: 0.9;
+        }
+        .promo-hr {
+            width: 60px;
+            border: none;
+            border-top: 2px solid #fff;
+            margin: 12px auto 6px auto;
+        }
+        .promo-tc {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 24px;
+        }
+        .promo-btns {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+        .promo-btn {
+            background: transparent;
+            color: #fff;
+            border: 3px solid #fff;
+            border-radius: 6px;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 18px 48px;
+            margin: 0 0 8px 0;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 12px 0 #fff3;
+        }
+        .promo-btn:hover {
+            background: #fff;
+            color: #0a1a4f;
+            box-shadow: 0 0 18px 2px #fff7;
+        }
+        .promo-stars {
+            position: absolute;
+            left: 0; right: 0; top: 0; bottom: 0;
+            pointer-events: none;
+        }
+        .promo-stars span {
+            position: absolute;
+            color: #fff;
+            opacity: 0.7;
+            font-size: 18px;
+        }
+        .promo-slider {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .promo-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 1s;
+            object-fit: cover;
+        }
+        .promo-slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+        .promo-banner > *:not(.promo-slider) {
+            position: relative;
+            z-index: 2;
+        }
+        /* Responsive styles */
+        @media (max-width: 900px) {
+            .promo-discount {
+                font-size: 54px;
+            }
+            .promo-title, .promo-subtitle {
+                font-size: 18px;
+            }
+            .promo-btn {
+                font-size: 22px;
+                padding: 14px 32px;
+            }
+        }
+        @media (max-width: 600px) {
+            .promo-banner {
+                padding: 32px 4vw 36px 4vw;
+            }
+            .promo-discount {
+                font-size: 36px;
+            }
+            .promo-title, .promo-subtitle {
+                font-size: 15px;
+            }
+            .promo-btn {
+                font-size: 16px;
+                padding: 10px 18px;
+            }
+            .promo-brands span {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="promo-banner">
+        <div class="promo-stars">
+            <span style="top:-10px;left:5vw;">*</span>
+            <span style="top:30px;left:10vw;">*</span>
+            <span style="top:60px;left:-20vw;">*</span>
+            <span style="top:20px;left:-35vw;">*</span>
+            <span style="top:80px;left:-25vw;">*</span>
+            <span style="top:150px;left:20vw;">*</span>
+            <span style="top:90px;left:30vw;">*</span>
+            <span style="top:120px;left:40vw;">*</span>
+            <span style="top:40px;left:25vw;">*</span>
+        </div>
+        <div class="promo-brands">
+            <span>ZANDO</span>
+            <span>TEEN-ELEVEN</span>
+            <span>GATONI</span>
+            <span>ROUINE</span>
+            <span>361°</span>
+        </div>
+        <div class="promo-exclusive">ONLINE EXCLUSIVE</div>
+        <div class="promo-title">GET EXTRA UP TO</div>
+        <div class="promo-discount" id="promoDiscount">50% OFF</div>
+        <div class="promo-subtitle">ON SELECTED DISCOUNT ITEMS</div>
+        <hr class="promo-hr">
+        <div class="promo-tc">T&amp;Cs APPLY</div>
+        <div class="promo-btns">
+            <button class="promo-btn">SHOP MEN</button>
+            <a href="{% url 'women-extra' %}" class="promo-btn" style="text-decoration: none; color: inherit;">SHOP WOMEN</a>
+        </div>
+    </div>
+
+</body>
+</html>

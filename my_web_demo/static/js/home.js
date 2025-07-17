@@ -1,11 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const modalOverlay = document.getElementById('modalOverlay');
     const okBtn = document.getElementById('okBtn');
+<<<<<<< HEAD
     // --- Shop Preference Modal Logic ---
     const userPreference = localStorage.getItem('shopPreference');
     const preferenceOptions = document.querySelector('.preference-options');
 
     // Show modal only if no preference is set
+=======
+    const preferenceButtons = document.querySelectorAll('.preference-btn');
+
+    // Check if a preference is already set
+    const userPreference = localStorage.getItem('shopPreference');
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
     if (!userPreference) {
         showModal();
     }
@@ -22,11 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+<<<<<<< HEAD
     // When OK is clicked, just hide the modal
+=======
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
     okBtn?.addEventListener('click', () => {
         hideModal();
     });
 
+<<<<<<< HEAD
     // When a category link is clicked, set preference and allow navigation
     preferenceOptions?.addEventListener('click', (e) => {
         // Check if the clicked element is a link
@@ -41,6 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // No need to call hideModal() or e.preventDefault(), just let the link work
         }
     });
+=======
+    for (const btn of preferenceButtons) {
+        btn.addEventListener('click', () => {
+            const preference = btn.dataset.preference;
+            if (preference) {
+                localStorage.setItem('shopPreference', preference);
+                console.log(`Preference set to: ${preference}`);
+                hideModal();
+            }
+        });
+    }
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 
     // Close modal if clicked outside
     modalOverlay?.addEventListener('click', (e) => {

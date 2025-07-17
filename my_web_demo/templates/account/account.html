@@ -4,6 +4,7 @@
 {% block title %}My Account{% endblock %}
 
 {% block styles %}
+<<<<<<< HEAD
 <style>
     body {
         background-color: #1a1a1a;
@@ -68,12 +69,16 @@
         text-decoration: none;
     }
 </style>
+=======
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 {% endblock styles %}
 
 {% block main %}
 
 <div class="account-container">
     <div class="account-header">
+<<<<<<< HEAD
         <h1>Me</h1>
         <i class="material-icons">edit</i>
     </div>
@@ -132,5 +137,21 @@
     </div>
 
     <a href="{% url 'logout' %}" class="logout-btn">Log out</a>
+=======
+        <h1>Welcome, {{ user.first_name|default:user.username }}!</h1>
+    </div>
+
+    <div class="account-details">
+        <h2>Your Details</h2>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+
+    <div class="account-actions">
+        <h2>Actions</h2>
+        <a href="{% url 'order_history' %}">View Order History</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+>>>>>>> 48af5d23906356858e16ffd6b0d5aefa4ec79200
 </div>
 {% endblock main %}

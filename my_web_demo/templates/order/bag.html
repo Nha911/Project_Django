@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Shopping Bag{% endblock %}
+
+{% block main %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Your Shopping Bag</h1>
+
+    {% if cart_items %}
+        <div class="row">
+            <div class="col-md-8">
+                {% for item in cart_items %}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ item.product.image.url }}" class="img-fluid rounded-start" alt="{{ item.product.name }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.product.name }}</h5>
+                                    <p class="card-text">Price: ${{ item.product.price }}</p>
+                                    <p class="card-text">Quantity: {{ item.quantity }}</p>
+                                    <p class="card-text">Size: {{ item.size|default:'N/A' }}</p>
+                                    <p class="card-text">Total: ${{ item.total_price }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Order Summary</h5>
+                        <p class="card-text">Total Cost: ${{ total_cost }}</p>
+                        <a href="{% url 'checkout' %}" class="btn btn-primary w-100">Proceed to Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p class="text-center">Your bag is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}
