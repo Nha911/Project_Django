@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Zando Clone{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 0px;
+            padding-top: 70px;
+            /* Adjust for new navbar height */
+        }
+
+        .main-nav {
+            background-color: #fff;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0 2rem;
+        }
+
+        .main-nav .navbar-brand {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .main-nav .nav-link {
+            color: #000;
+            font-weight: 500;
+            margin: 0 10px;
+        }
+
+        .main-nav .form-control {
+            width: 250px;
+        }
+
+        .nav-icons .nav-link {
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .nav-icons .badge {
+            position: absolute;
+            top: 0;
+            right: -5px;
+            font-size: 0.6rem;
+        }
+
+        @media screen and (max-width: 896px) {
+            #flix-d {
+                display: flex;
+                flex-direction: column;
+            }
+
+            #search-form {
+                margin-left: 40px;
+                text-align: center;
+            }
+
+            .navbar-nav {
+                margin-top: 10px;
+                margin-left: 10px;
+            }
+
+            .product-detail-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+
+            .container-fluid {
+                display: flex;
+                flex-wrap: nowrap;
+                flex-direction: column;
+                align-items: center;
+                align-content: center;
+            }
+        }
+    </style>
+    {% block styles %}{% endblock %}
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light main-nav">
+        <div class="container-fluid">
+            <!-- Left Links -->
+            <div class="d-flex">
+                <ul class="navbar-nav flex-row">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'category_products' 'women' %}">WOMEN</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'category_products' 'men' %}">MEN</a></li>
+                </ul>
+            </div>
+            <!-- Center Logo -->
+            <a class="navbar-brand mx-auto" href="{% url 'home' %}">ZANDO.</a>
+
+            <!-- Right Icons -->
+            <div class="d-flex align-items-center" id="flix-d">
+                <form class="d-flex me-3" action="{% url 'search_view' %}" method="get">
+                    <input id="search-form" class="form-control me-2" type="search" name="q" placeholder="Search"
+                        aria-label="Search" value="{{ query }}">
+                </form>
+                <ul class="navbar-nav flex-row align-items-center nav-icons">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'wishlist_view' %}"><i
+                                class="material-icons">favorite_border</i></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                            <i class="material-icons">shopping_bag</i>
+                            <span class="badge bg-danger rounded-pill">{{ cart_item_count }}</span>
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'account' %}"><i
+                                class="material-icons">person_outline</i> {{ user.first_name }}</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i
+                                class="material-icons">person_outline</i></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block main %}
+        {% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Cart Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="cartOffcanvasLabel">Your Cart</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            {% if cart_items %}
+            {% for item in cart_items %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ item.product.image.url }}" class="img-fluid rounded-start"
+                            alt="{{ item.product.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <form action="{% url 'update_bag' item.id %}" method="post" class="d-flex align-items-center mt-2">
+                                {% csrf_token %}
+                                <div class="me-3">
+                                    <label for="size-{{ item.id }}" class="form-label-sm">Size:</label>
+                                    <select name="size" id="size-{{ item.id }}" class="form-select form-select-sm form-select-dark">
+                                        <option value="S" {% if item.size == 'S' %}selected{% endif %}>S</option>
+                                        <option value="M" {% if item.size == 'M' %}selected{% endif %}>M</option>
+                                        <option value="L" {% if item.size == 'L' %}selected{% endif %}>L</option>
+                                        <option value="XL" {% if item.size == 'XL' %}selected{% endif %}>XL</option>
+                                    </select>
+                                </div>
+                                <div class="me-3">
+                                    <label for="quantity-{{ item.id }}" class="form-label-sm">Quantity:</label>
+                                    <select name="quantity" id="quantity-{{ item.id }}" class="form-select form-select-sm form-select-dark">
+                                        {% for i in "x"|ljust:10 %}
+                                        <option value="{{ forloop.counter }}" {% if forloop.counter == item.quantity %}selected{% endif %}>{{ forloop.counter }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-secondary btn-sm">Update</button>
+                            </form>
+                            <p class="card-text">Quantity: {{ item.quantity }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="card-text mb-0 fw-bold">${{ item.total_price|floatformat:2 }}</span>
+                                    {% if item.product.discount > 0 %}
+                                        <small class="text-muted text-decoration-line-through ms-2">${{ item.product.price|floatformat:2 }}</small>
+                                    {% endif %}
+                                </div>
+                                <a href="{% url 'add_to_wishlist' item.product.id %}" class="btn btn-outline-danger btn-sm">
+                                    <i class="material-icons">{% if item.product.id in wishlist_product_ids %}favorite{% else %}favorite_border{% endif %}</i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <hr>
+            <div class="d-flex justify-content-between">
+                <span>Total</span>
+                <span>US ${{ cart_total_original_price|floatformat:2 }}</span>
+            </div>
+            <div class="d-flex justify-content-between text-danger">
+                <span>Save</span>
+                <span>-US ${{ cart_total_savings|floatformat:2 }}</span>
+            </div>
+            <div class="d-flex justify-content-between">
+                <span>Delivery fee</span>
+                <span>US $0.00</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between fw-bold">
+                <span>Amount to pay</span>
+                <span>US ${{ cart_total_cost|floatformat:2 }}</span>
+            </div>
+            <a href="{% url 'checkout' %}" class="btn btn-dark w-100 mt-3">Proceed to Checkout</a>
+            {% else %}
+            <p>Your cart is empty.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% block scripts %}
+    {% endblock %}
+
+</body>
+<script>
+    // Sado mouse-follow effect: radial gradient follows mouse
+    document.addEventListener('mousemove', function (e) {
+        var bg = document.getElementById('sado-bg');
+        var x = e.clientX;
+        var y = e.clientY;
+        bg.style.background = `radial-gradient(600px at ${x}px ${y}px, rgba(99,102,241,0.15), transparent 100%)`;
+    });
+</script>
+
+</html>

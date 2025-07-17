@@ -1,0 +1,11 @@
+/* Add your custom styles for the home page here */
+
+.hero-section {
+    color: #fff;
+    text-align: center;
+    padding: 100px 0;
+}
+
+.product-section {
+    padding: 50px 0;
+}

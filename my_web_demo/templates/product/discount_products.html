@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} - Zando{% endblock %}
+
+{% block main %}
+<style>
+    .product-section {
+        padding: 3rem 0;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    .section-header {
+        margin-bottom: 2rem;
+    }
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #29434d;
+        text-align: center;
+    }
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    .product-card {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+    .product-image-container {
+        position: relative;
+    }
+    .product-img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .discount-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #a0544d;
+        color: white;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    .brand-label {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+    }
+    .product-info {
+        padding: 1rem;
+    }
+    .product-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    .price-container {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    .sale-price {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #a0544d;
+    }
+    .original-price {
+        font-size: 0.9rem;
+        color: #93979a;
+        text-decoration: line-through;
+    }
+    .category-filters {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .category-filters a {
+        text-decoration: none;
+        color: #29434d;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+    }
+    .category-filters a.active, .category-filters a:hover {
+        background-color: #29434d;
+        color: white;
+    }
+</style>
+
+<section class="product-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">{{ title }}</h2>
+        </div>
+        <div class="products-grid">
+            {% for product in products %}
+                <div class="product-card">
+                <div class="product-image-container">
+                    <a href="{% url 'product_detail' product.id %}">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/300{% endif %}"
+                            alt="{{ product.name }}" class="product-img">
+                    </a>
+                    {% if product.discount > 0 %}
+                    <span class="discount-badge">-{{ product.discount }}%</span>
+                    {% endif %}
+                    {% if product.brand %}
+                    <span class="brand-label">{{ product.brand.name }}</span>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title"><a href="{% url 'product_detail' product.id %}"
+                            class="text-decoration-none text-dark">{{ product.name }}</a></h3>
+                    <div class="price-container">
+                        <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
+                        {% if product.discount > 0 %}
+                        <span class="original-price">US ${{ product.original_price|floatformat:2 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No products found in this category.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

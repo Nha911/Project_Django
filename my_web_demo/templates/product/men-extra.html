@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shop Men - Zando{% endblock %}
+
+{% block main %}
+<style>
+    .page-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    .filter-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+    }
+    .filter-bar .filters a, .filter-bar .filters span {
+        margin-right: 20px;
+        color: #333;
+        text-decoration: none;
+    }
+    .filter-bar .filters a:hover {
+        text-decoration: underline;
+    }
+    .promo-banner-sportlife {
+        background-color: #009cde;
+        color: white;
+        text-align: center;
+        padding: 40px 20px;
+        margin: 2rem 0;
+        background-image: url('https://zandokh.com/image/catalog/f/s/f/s/fsfsfsf_1.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+    .promo-banner-sportlife .exclusive {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    .promo-banner-sportlife .discount {
+        font-size: 4rem;
+        font-weight: bold;
+        line-height: 1;
+        margin: 10px 0;
+    }
+    .promo-banner-sportlife .arrivals {
+        font-size: 1.2rem;
+    }
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+    .product-card {
+        border: 1px solid #e9ecef;
+        text-align: left;
+        position: relative;
+    }
+    .product-image-container {
+        position: relative;
+        background-color: #f7f7f7;
+    }
+    .product-image-container img {
+        width: 100%;
+        height: auto;
+    }
+    .discount-tag {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #e53935;
+        color: white;
+        padding: 3px 8px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .wishlist-icon {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        cursor: pointer;
+    }
+    .product-info {
+        padding: 15px;
+    }
+    .product-price .current-price {
+        color: #e53935;
+        font-weight: bold;
+        margin-right: 8px;
+    }
+    .product-price .original-price {
+        text-decoration: line-through;
+        color: #999;
+    }
+    .product-name {
+        font-size: 14px;
+        color: #333;
+        margin: 5px 0;
+    }
+    .product-brand {
+        font-size: 12px;
+        color: #888;
+    }
+    @media (max-width: 992px) {
+        .product-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+        .product-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+</style>
+
+<div class="page-container">
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filters">
+            <a href="#">WOMEN</a>
+            <a href="#">MEN</a>
+            <a href="#">BOYS</a>
+            <a href="#">GIRLS</a>
+        </div>
+        <div class="sorting">
+            <select class="form-select form-select-sm" style="width: auto;">
+                <option selected>Sort by: Product Recommend</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Promo Banner -->
+    <div class="promo-banner-sportlife">
+        <div class="exclusive">MEN'S COLLECTION</div>
+        <div class="discount">NEW SEASON</div>
+        <div class="arrivals">SHOP THE LATEST TRENDS</div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <div class="product-image-container">
+                <a href="{% url 'product_detail' product.id %}">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/300{% endif %}" alt="{{ product.name }}" class="product-img">
+                </a>
+                {% if product.discount > 0 %}
+                <div class="discount-tag">-{{ product.discount }}%</div>
+                {% endif %}
+                <div class="wishlist-icon">
+                    <a href="{% url 'add_to_wishlist' product.id %}" class="text-decoration-none">
+                        {% if product.id in wishlist_product_ids %}
+                            <i class="material-icons" style="font-size: 20px; color: red;">favorite</i>
+                        {% else %}
+                            <i class="material-icons" style="font-size: 20px; color: black;">favorite_border</i>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+            <div class="product-info">
+                <div class="product-price">
+                    <span class="current-price">US ${{ product.get_discounted_price | floatformat:2 }}</span>
+                    {% if product.discount > 0 %}
+                    <span class="original-price">US ${{ product.original_price | floatformat:2 }}</span>
+                    {% endif %}
+                </div>
+                <h5 class="product-name"><a href="{% url 'product_detail' product.id %}" class="text-dark text-decoration-none">{{ product.name }}</a></h5>
+                {% if product.brand %}
+                <div class="product-brand">{{ product.brand.name }}</div>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No products found in this category.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock main %}

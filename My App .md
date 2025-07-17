@@ -24,3 +24,10 @@ profile.html (User profile)
 A Product model (with fields like name, description, price, image, etc.)
 A view to fetch and pass product data to the template
 A template that loops through products and displays them
+==================================
+whene create models
+
+python manage.py makemigrations
+python manage.py migrate
+
+==============================================

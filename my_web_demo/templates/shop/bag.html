@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Shopping Bag{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        background-color: #1a1a1a;
+        color: #f0f0f0;
+    }
+
+    .container.my-5 {
+        max-width: 1200px;
+    }
+
+    .bag-title {
+        color: #fff;
+        font-weight: bold;
+        margin-bottom: 2rem;
+    }
+
+    .product-card {
+        background-color: #2b2b2b;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-card img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-right: 1.5rem;
+    }
+
+    .product-details {
+        flex-grow: 1;
+    }
+
+    .product-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .product-name:hover {
+        color: #ccc;
+    }
+
+    .product-info {
+        font-size: 0.9rem;
+        color: #aaa;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .product-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .remove-btn {
+        background: none;
+        border: none;
+        color: #aaa;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+
+    .remove-btn:hover {
+        color: #fff;
+    }
+
+    .order-summary {
+        background-color: #2b2b2b;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+
+    .summary-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .summary-total {
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-top: 1rem;
+        border-top: 1px solid #444;
+        padding-top: 1rem;
+    }
+
+    .checkout-btn {
+        background-color: #007bff;
+        border-color: #007bff;
+        font-weight: bold;
+        padding: 0.75rem;
+    }
+
+    .empty-bag {
+        text-align: center;
+        padding: 4rem 0;
+    }
+
+    .empty-bag h2 {
+        color: #fff;
+    }
+
+    .empty-bag p {
+        color: #aaa;
+    }
+
+    .continue-shopping-btn {
+        margin-top: 1rem;
+    }
+
+    .update-btn {
+        margin-top: -20px;
+    }
+    .price-details {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    .price-details .original-price {
+        color: #aaa;
+    }
+    .price-details .discount-info {
+        color: #dc3545; /* Bootstrap's danger color */
+    }
+    .price-details .current-price {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="container my-5">
+    <h1 class="bag-title">Your Shopping Bag</h1>
+
+    {% if cart_items %}
+    <div class="row">
+        <div class="col-lg-8">
+            {% for item in cart_items %}
+            <div class="product-card">
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                <div class="product-details">
+                    <a href="#" class="product-name">{{ item.product.name }}</a>
+                    <div class="price-details mt-2">
+                        {% if item.product.discount > 0 %}
+                            <div id="original-price" class="original-price text-decoration-line-through">US ${{ item.product.price|floatformat:2 }}</div>
+                            <div class="discount-info text-danger">
+                                ({{ item.product.discount }}% off) -US ${{ item.product.get_discount_amount|floatformat:2 }}
+                            </div>
+                            <div class="current-price fw-bold">US ${{ item.product.get_discounted_price|floatformat:2 }}</div>
+                        {% else %}
+                            <div class="current-price fw-bold">US ${{ item.product.price|floatformat:2 }}</div>
+                        {% endif %}
+                    </div>
+                    <form action="{% url 'update_bag' item.id %}" method="post" class="d-flex align-items-center mt-2">
+                        {% csrf_token %}
+                        <div class="me-3">
+                            <label for="size-{{ item.id }}" class="form-label-sm">Size:</label>
+                            <select name="size" id="size-{{ item.id }}"
+                                class="form-select form-select-sm form-select-dark">
+                                <option value="S" {% if item.size == 'S' %}selected{% endif %}>S</option>
+                                <option value="M" {% if item.size == 'M' %}selected{% endif %}>M</option>
+                                <option value="L" {% if item.size == 'L' %}selected{% endif %}>L</option>
+                                <option value="XL" {% if item.size == 'XL' %}selected{% endif %}>XL</option>
+                            </select>
+                        </div>
+                        <div class="me-3">
+                            <label for="quantity-{{ item.id }}" class="form-label-sm">Quantity:</label>
+                            <select name="quantity" id="quantity-{{ item.id }}"
+                                class="form-select form-select-sm form-select-dark">
+                                {% for i in "x"|ljust:10 %}
+                                <option value="{{ forloop.counter }}" {% if forloop.counter == item.quantity %}selected{% endif %}>{{ forloop.counter }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="d-flex btn btn-secondary btn-sm mt-4">Update</button>
+                    </form>
+                    <!-- <p class="product-price mt-2">${{ item.total_price }}</p> -->
+                </div>
+                <div class="product-actions">
+                    <a href="{% url 'remove_from_bag' item.id %}" class="remove-btn">
+                        <i class="material-icons">delete_outline</i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-4">
+            <div class="order-summary">
+                <h5 class="summary-title">Order Summary</h5>
+                <div class="summary-item">
+                    <span>Total</span>
+                    <span>US ${{ total_original_price|floatformat:2 }}</span>
+                </div>
+                <div class="summary-item">
+                    <span>Save</span>
+                    <span class="text-danger">-US ${{ total_savings|floatformat:2 }}</span>
+                </div>
+                <div class="summary-item">
+                    <span>Delivery fee</span>
+                    <span>US $0</span>
+                </div>
+                <hr style="border-color: #444;">
+                <div class="summary-item summary-total">
+                    <span>Amount to pay</span>
+                    <span>US ${{ amount_to_pay|floatformat:2 }}</span>
+                </div>
+                <a href="{% url 'checkout' %}" class="btn btn-primary w-100 mt-4 checkout-btn">Proceed to Checkout</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-bag">
+        <h2>Your bag is empty.</h2>
+        <p>Looks like you haven't added anything to your bag yet.</p>
+        <a href="{% url 'home' %}" class="btn btn-primary continue-shopping-btn">Continue Shopping</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

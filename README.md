@@ -1,1 +1,935 @@
 # Project_Django
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <button class="hamburger-menu" id="hamburgerMenu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+
+                <div class="logo">
+                    <img src="https://ext.same-assets.com/2884684745/183045854.png" alt="ZANDO" class="logo-img">
+                </div>
+
+                <div class="search-container">
+                    <input type="text" placeholder="Search" class="search-input">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" />
+                        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
+
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor"
+                                stroke-width="2" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </button>
+
+                    <button class="wishlist-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                                stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </button>
+
+                    <button class="cart-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="9" cy="21" r="1" stroke="currentColor" stroke-width="2" />
+                            <circle cx="20" cy="21" r="1" stroke="currentColor" stroke-width="2" />
+                            <path d="m1 1 4 4 0 12a2 2 0 0 0 2 2h12" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                        <span class="cart-count">0</span>
+                    </button>
+
+                    <button class="login-btn">LOGIN</button>
+                    <button class="register-btn">REGISTER</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+
+    {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Zando - Retail store in Phnom Penh & Siem Reap, Cambodia{% endblock %}
+
+{% block main %}
+<!-- Shop Preference Modal -->
+<div class="modal-overlay hidden" id="modalOverlay">
+    <div class="modal">
+        <h2 class="modal-title">Shop Preference</h2>
+        <div class="preference-options">
+            <button class="preference-btn" data-preference="women">Women</button>
+            <button class="preference-btn" data-preference="men">Men</button>
+            <button class="preference-btn" data-preference="boys">Boys</button>
+            <button class="preference-btn" data-preference="girls">Girls</button>
+        </div>
+        <button class="ok-btn" id="okBtn">OK</button>
+    </div>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">ONLINE EXCLUSIVE</div>
+        <h1 class="hero-title">
+            UP TO<br>
+            <span class="hero-discount">50</span><span class="hero-percent">%</span><br>
+            <span class="hero-off">OFF</span>
+        </h1>
+        <p class="hero-subtitle">ON NEW ARRIVALS</p>
+        <p class="hero-terms">*T&CS APPLY</p>
+    </div>
+</section>
+
+<!-- Brand Logos Section -->
+<section class="brands">
+    <div class="container">
+        <div class="brands-grid">
+            <div class="brand-logo">
+                <img src="https://ext.same-assets.com/2884684745/183045854.png" alt="ZANDO" class="brand-img">
+            </div>
+            <div class="brand-logo">
+                <span class="brand-text">TEN11</span>
+            </div>
+            <div class="brand-logo">
+                <span class="brand-text">GATONI</span>
+            </div>
+            <div class="brand-logo">
+                <span class="brand-text">ROUTINE</span>
+            </div>
+            <div class="brand-logo">
+                <span class="brand-text">361°</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Categories -->
+<section class="product-categories">
+    <div class="container">
+        <div class="categories-grid">
+            <div class="category-card">
+                <img src="https://ext.same-assets.com/2884684745/4159469437.jpeg" alt="LIFESTYLE" class="category-img">
+                <div class="category-overlay">
+                    <h3 class="category-title">LIFESTYLE</h3>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://ext.same-assets.com/2884684745/90516060.jpeg" alt="SPORTLIFE" class="category-img">
+                <div class="category-overlay">
+                    <h3 class="category-title">SPORTLIFE</h3>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://ext.same-assets.com/2884684745/1771594967.jpeg" alt="SMART CASUAL"
+                    class="category-img">
+                <div class="category-overlay">
+                    <h3 class="category-title">SMART CASUAL</h3>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+<!-- Product Sections -->
+<section class="product-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">⚡ Extra Up to 50% Off – Go!</h2>
+            <button class="shop-more-btn">Shop More</button>
+        </div>
+
+        <div class="products-grid">
+            {% for product in discounted_products %}
+            <div class="product-card">
+                <div class="product-image-container">
+                    <a href="{% url 'product_detail' product.id %}">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/300{% endif %}"
+                            alt="{{ product.name }}" class="product-img">
+                    </a>
+                    {% if product.discount > 0 %}
+                    <span class="discount-badge">-{{ product.discount }}%</span>
+                    {% endif %}
+                    {% if product.brand %}
+                    <span class="brand-label">{{ product.brand.name }}</span>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title"><a href="{% url 'product_detail' product.id %}"
+                            class="text-decoration-none text-dark">{{ product.name }}</a></h3>
+                    <div class="price-container">
+                        <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
+                        {% if product.discount > 0 %}
+                        <span class="original-price">US ${{ product.original_price|floatformat:2 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No discounted products available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- New Season Section -->
+<section class="product-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">📅 New Season, New Looks.</h2>
+            <button class="shop-more-btn">Shop More</button>
+        </div>
+
+        <div class="products-grid">
+            {% for product in new_arrivals %}
+            <div class="product-card">
+                <div class="product-image-container">
+                    <a href="{% url 'product_detail' product.id %}">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/300{% endif %}"
+                            alt="{{ product.name }}" class="product-img">
+                    </a>
+                    {% if product.discount > 0 %}
+                    <span class="discount-badge">-{{ product.discount }}%</span>
+                    {% endif %}
+                    {% if product.brand %}
+                    <span class="brand-label">{{ product.brand.name }}</span>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title"><a href="{% url 'product_detail' product.id %}"
+                            class="text-decoration-none text-dark">{{ product.name }}</a></h3>
+                    <div class="price-container">
+                        <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
+                        {% if product.discount > 0 %}
+                        <span class="original-price">US ${{ product.original_price|floatformat:2 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No new arrivals at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Exclusive Sale Section -->
+<section class="product-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">⚡ Exclusive - Up to 70% Off!</h2>
+            <button class="shop-more-btn">Shop More</button>
+        </div>
+
+        <div class="products-grid">
+            {% for product in discounted_products %}
+            <div class="product-card">
+                <div class="product-image-container">
+                    <a href="{% url 'product_detail' product.id %}">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/300{% endif %}"
+                            alt="{{ product.name }}" class="product-img">
+                    </a>
+                    {% if product.discount > 0 %}
+                    <span class="discount-badge">-{{ product.discount }}%</span>
+                    {% endif %}
+                    {% if product.brand %}
+                    <span class="brand-label">{{ product.brand.name }}</span>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title"><a href="{% url 'product_detail' product.id %}"
+                            class="text-decoration-none text-dark">{{ product.name }}</a></h3>
+                    <div class="price-container">
+                        <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
+                        {% if product.discount > 0 %}
+                        <span class="original-price">US ${{ product.original_price|floatformat:2 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No exclusive sales at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Footwear Section -->
+<section class="product-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">👟 New Footwear Drop !!</h2>
+            <button class="shop-more-btn">Shop More</button>
+        </div>
+
+        <div class="products-grid">
+            {% for product in footwear %}
+            <div class="product-card">
+                <div class="product-image-container">
+                    <a href="{% url 'product_detail' product.id %}">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/300{% endif %}"
+                            alt="{{ product.name }}" class="product-img">
+                    </a>
+                    {% if product.discount > 0 %}
+                    <span class="discount-badge">-{{ product.discount }}%</span>
+                    {% endif %}
+                    {% if product.brand %}
+                    <span class="brand-label">{{ product.brand.name }}</span>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title"><a href="{% url 'product_detail' product.id %}"
+                            class="text-decoration-none text-dark">{{ product.name }}</a></h3>
+                    <div class="price-container">
+                        <span class="sale-price">US ${{ product.get_discounted_price|floatformat:2 }}</span>
+                        {% if product.discount > 0 %}
+                        <span class="original-price">US ${{ product.original_price|floatformat:2 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center text-muted">No footwear available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4 class="footer-title">ZANDO APP</h4>
+                <div class="qr-code">
+                    <img src="https://ext.same-assets.com/2884684745/3749218740.png" alt="QR Code" class="qr-img">
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-title">LOYALTY</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Membership & Benefits</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-title">FOLLOW US</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">TikTok</a></li>
+                    <li><a href="#">Youtube</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-title">CUSTOMER SERVICES</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Online exchange policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">FAQs & guides</a></li>
+                    <li><a href="#">Find a store</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-title">CONTACT US</h4>
+                <ul class="footer-links">
+                    <li><a href="mailto:info@zandokh.com">info@zandokh.com</a></li>
+                    <li><a href="tel:+85508199716">(+855) 081 999 716</a></li>
+                    <li><a href="tel:+85506133030">(+855) 061 330 330</a></li>
+                    <li><a href="#">Telegram</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-title">WE ACCEPT</h4>
+                <div class="payment-methods">
+                    <img src="https://ext.same-assets.com/2884684745/3165199152.png" alt="Payment Methods"
+                        class="payment-img">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2015 - 2025 Zando. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+{% endblock main %}
+
+{% block scripts %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock scripts %}
+
+
+<style>
+    /* Reset and Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Helvetica', Arial, sans-serif;
+        background-color: #f9f8f8;
+        color: #29434d;
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Hero Section */
+    .hero {
+        background: linear-gradient(135deg, #45b7a9 0%, #29434d 100%);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+        position: relative;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-content {
+        max-width: 600px;
+    }
+
+    .hero-badge {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        display: inline-block;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+    }
+
+    .hero-discount {
+        font-size: 8rem;
+        font-weight: 900;
+        color: #d0bfaa;
+        line-height: 0.8;
+    }
+
+    .hero-percent {
+        font-size: 3rem;
+        font-weight: 900;
+        color: #d0bfaa;
+    }
+
+    .hero-off {
+        font-size: 4rem;
+        font-weight: 900;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero-terms {
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    /* Brand Logos Section */
+    .brands {
+        background-color: white;
+        padding: 2rem 0;
+    }
+
+    .brands-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .brand-logo {
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .brand-img {
+        height: 40px;
+        width: auto;
+    }
+
+    .brand-text {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #29434d;
+    }
+
+    /* Product Categories */
+    .product-categories {
+        padding: 3rem 0;
+    }
+
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .category-card {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .category-card:hover {
+        transform: translateY(-4px);
+    }
+
+    .category-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    .category-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+        padding: 2rem 1rem 1rem;
+    }
+
+    .category-title {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    /* Product Section */
+    .product-section {
+        padding: 3rem 0;
+        background-color: white;
+        margin-bottom: 2rem;
+    }
+
+    .product-section:nth-child(even) {
+        background-color: #f9f8f8;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #29434d;
+    }
+
+    .shop-more-btn {
+        background: none;
+        border: 1px solid #29434d;
+        color: #29434d;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .shop-more-btn:hover {
+        background-color: #29434d;
+        color: white;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .product-card {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+
+    .product-card:hover {
+        transform: translateY(-4px);
+    }
+
+    .product-image-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .product-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    .discount-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #a0544d;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .brand-label {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .product-info {
+        padding: 1rem;
+    }
+
+    .product-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #29434d;
+        margin-bottom: 0.5rem;
+    }
+
+    .price-container {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .sale-price {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #a0544d;
+    }
+
+    .original-price {
+        font-size: 0.9rem;
+        color: #93979a;
+        text-decoration: line-through;
+    }
+
+    /* Footer */
+    .footer {
+        background-color: #29434d;
+        color: white;
+        padding: 3rem 0 1rem;
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footer-title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+        color: #caced1;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    .qr-img,
+    .payment-img {
+        max-width: 150px;
+        height: auto;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid #45b7a9;
+        padding-top: 1rem;
+        text-align: center;
+        color: #93979a;
+        font-size: 0.8rem;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal {
+        background-color: white;
+        border-radius: 8px;
+        padding: 2rem;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #29434d;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .preference-options {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .preference-btn {
+        background: none;
+        border: 1px solid #caced1;
+        padding: 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        color: #29434d;
+        transition: all 0.3s ease;
+    }
+
+    .preference-btn:hover,
+    .preference-btn.selected {
+        background-color: #45b7a9;
+        color: white;
+        border-color: #45b7a9;
+    }
+
+    .ok-btn {
+        width: 100%;
+        background-color: #29434d;
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .ok-btn:hover {
+        background-color: #45b7a9;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .header-content {
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .search-container {
+            order: 3;
+            flex-basis: 100%;
+        }
+
+        .header-actions {
+            gap: 0.5rem;
+        }
+
+        .login-btn,
+        .register-btn {
+            font-size: 0.8rem;
+            padding: 0.5rem;
+        }
+
+        .hero {
+            padding: 2rem 1rem;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-discount {
+            font-size: 3rem;
+        }
+
+        .hero-off {
+            font-size: 2.5rem;
+        }
+
+        .brands-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .categories-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .products-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .section-header {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 0 10px;
+        }
+
+        .hero {
+            padding: 1.5rem 0.5rem;
+        }
+
+        .hero-title {
+            font-size: 1.5rem;
+        }
+
+        .hero-discount {
+            font-size: 2.5rem;
+        }
+
+        .hero-off {
+            font-size: 2rem;
+        }
+
+        .brands-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .products-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .footer-content {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Animation Classes */
+    .fade-in {
+        animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .slide-up {
+        animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

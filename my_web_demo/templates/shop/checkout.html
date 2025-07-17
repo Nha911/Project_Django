@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        background-color: #1a1a1a;
+        color: #f0f0f0;
+    }
+    .checkout-container {
+        max-width: 1300px;
+    }
+    .checkout-title {
+        color: #fff;
+        font-weight: bold;
+        margin-bottom: 2rem;
+    }
+    .checkout-section {
+        background-color: #2b2b2b;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .section-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #444;
+    }
+    .order-summary-card, .payment-card, .contact-card {
+        background-color: #2b2b2b;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+    .summary-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    .summary-item img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-right: 1rem;
+    }
+    .summary-item-details {
+        flex-grow: 1;
+    }
+    .summary-item-name {
+        color: #fff;
+        font-size: 0.9rem;
+    }
+    .summary-item-info {
+        color: #aaa;
+        font-size: 0.8rem;
+    }
+    .summary-item-price {
+        color: #fff;
+        font-weight: bold;
+    }
+    .totals-section {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #444;
+    }
+    .totals-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+    .totals-row.grand-total {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #fff;
+    }
+    .confirm-btn {
+        background-color: #007bff;
+        border-color: #007bff;
+        font-weight: bold;
+        padding: 0.75rem;
+    }
+    .form-control-dark {
+        background-color: #333;
+        border-color: #555;
+        color: #fff;
+    }
+    .form-control-dark:focus {
+        background-color: #333;
+        border-color: #007bff;
+        color: #fff;
+        box-shadow: none;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="container my-5 checkout-container">
+    <h1 class="checkout-title">Checkout</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-lg-7">
+                <!-- Delivery Section -->
+                <div class="checkout-section">
+                    <h5 class="section-title">Delivery Address</h5>
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control form-control-dark" value="{{ request.user.get_full_name|default:request.user.username }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <input type="text" class="form-control form-control-dark" placeholder="Street, City, Province">
+                    </div>
+                </div>
+
+                <!-- Payment Section -->
+                <div class="checkout-section">
+                    <h5 class="section-title">Payment Method</h5>
+                    <p class="text-white-50">All transactions are secure and encrypted.</p>
+                    <div class="form-check p-3 mb-2" style="border: 1px solid #555; border-radius: 5px;">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="cod" checked>
+                        <label class="form-check-label" for="cod">
+                            Cash on Delivery
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Contact Section -->
+                <div class="checkout-section">
+                    <h5 class="section-title">Contact Information</h5>
+                     <div class="mb-3">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" class="form-control form-control-dark" value="{{ request.user.phone_number|default:'N/A' }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="order-summary-card">
+                    <h5 class="section-title">Order Summary</h5>
+                    {% for item in cart_items %}
+                    <div class="summary-item">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        <div class="summary-item-details">
+                            <div class="summary-item-name">{{ item.product.name }}</div>
+                            <div class="summary-item-info">Qty: {{ item.quantity }} | Size: {{ item.size|default:'N/A' }}</div>
+                        </div>
+                        <div class="summary-item-price">${{ item.total_price }}</div>
+                    </div>
+                    {% endfor %}
+                    <div class="totals-section">
+                        <div class="totals-row">
+                            <span>Subtotal</span>
+                            <span>${{ total_cost }}</span>
+                        </div>
+                        <div class="totals-row">
+                            <span>Shipping</span>
+                            <span>FREE</span>
+                        </div>
+                        <hr style="border-color: #444;">
+                        <div class="totals-row grand-total">
+                            <span>Total</span>
+                            <span>${{ total_cost }}</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-4 confirm-btn">Confirm Purchase</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

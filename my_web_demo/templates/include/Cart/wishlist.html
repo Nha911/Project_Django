@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Wishlist{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        background-color: #1a1a1a;
+        color: #f0f0f0;
+    }
+
+    .wishlist-container {
+        max-width: 1200px;
+    }
+
+    .wishlist-title {
+        color: #fff;
+        font-weight: bold;
+        margin-bottom: 2rem;
+    }
+
+    .wishlist-item-card {
+        background-color: #2b2b2b;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .wishlist-item-card .product-info {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        /* gap: 1rem; */
+        align-items: flex-start;
+    }
+
+    .price-container {
+        white-space: nowrap;
+    }
+
+    .product-image-container {
+        position: relative;
+        margin-right: 1.5rem;
+    }
+
+    .wishlist-item-card img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .discount-badge {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background-color: #dc3545;
+        color: white;
+        padding: 0.25em 0.5em;
+        font-size: 0.8rem;
+        font-weight: bold;
+        border-radius: 4px;
+    }
+
+    .price-container {
+        display: flex;
+        align-items: flex-start;
+        margin-top: 0.5rem;
+        flex-direction: column;
+    }
+
+    .current-price {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: red;
+    }
+
+    .original-price {
+        font-size: 0.9rem;
+        color: #aaa;
+        text-decoration: line-through;
+        margin-left: 0.5rem;
+    }
+
+    .item-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .item-name:hover {
+        color: #ccc;
+    }
+
+    .item-price {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #fff;
+        margin-top: 0.5rem;
+    }
+
+    .item-actions {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .remove-btn {
+        background: none;
+        border: none;
+        color: #aaa;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+
+    .remove-btn:hover {
+        color: #fff;
+    }
+
+    .move-to-bag-form {
+        border-top: 1px solid #444;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+    }
+
+    .form-label-dark {
+        color: #ccc;
+    }
+
+    .form-select-dark {
+        background-color: #333;
+        border-color: #555;
+        color: #fff;
+    }
+
+    .form-select-dark:focus {
+        background-color: #333;
+        border-color: #007bff;
+        color: #fff;
+        box-shadow: none;
+    }
+
+    .move-to-bag-btn {
+        background-color: #007bff;
+        border-color: #007bff;
+        font-weight: bold;
+    }
+
+    .empty-wishlist {
+        text-align: center;
+        padding: 4rem 0;
+    }
+
+    .empty-wishlist h2 {
+        color: #fff;
+    }
+
+    .empty-wishlist p {
+        color: #aaa;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        .move-to-bag-form {
+            border-top: 1px solid #444;
+        }
+        .discount-details {
+            display: flex;
+        }
+        .price-container {
+            text-align: center !important;
+            /* Ensure price is centered */
+            white-space: normal;
+            /* Allow wrapping on small screens */
+        }
+
+        .item-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .wishlist-item-card {
+            position: relative;
+            /* Needed for absolute positioning of the remove button */
+            padding-top: 40px;
+            /* Add space for the remove button */
+        }
+
+        .move-to-bag-form .row {
+            flex-direction: column;
+        }
+
+        .move-to-bag-form .col-md-4 {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
+
+    .discount-details {
+        font-size: 0.9rem;
+        color: #93979a;
+        text-decoration: line-through;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="container my-5 wishlist-container">
+    <h1 class="wishlist-title">My Wishlist</h1>
+
+    {% if wishlist_items %}
+    <div class="row">
+        {% for item in wishlist_items %}
+        <div class="col-12">
+            <div class="wishlist-item-card">
+                <div class="product-info">
+                    <div class="product-image-container">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                    </div>
+                    <div class="item-details">
+                        <a href="#" class="item-name">{{ item.product.name }}</a>
+                        <div class="price-container text-end">
+                            {% if item.product.discount > 0 %}
+                            <div class="current-price fw-bold">US ${{ item.product.get_discounted_price|floatformat:2 }}
+                                <span class="text-white">{{ item.product.discount }}%</span> <span
+                                    class="discount-details">US ${{ item.product.original_price|floatformat:2 }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <a href="{% url 'remove_from_wishlist' item.id %}" class="remove-btn"
+                            title="Remove from Wishlist">
+                            <i class="material-icons">delete_outline</i>
+                        </a>
+                    </div>
+                </div>
+                <form action="{% url 'move_to_bag' item.id %}" method="post" class="move-to-bag-form">
+                    {% csrf_token %}
+                    <div class="row align-items-end">
+                        <div class="col-md-4">
+                            <label for="size-{{ item.id }}" class="form-label form-label-dark">Size:</label>
+                            <select name="size" id="size-{{ item.id }}" class="form-select form-select-dark" required>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="quantity-{{ item.id }}" class="form-label form-label-dark">Quantity:</label>
+                            <select name="quantity" id="quantity-{{ item.id }}" class="form-select form-select-dark">
+                                {% for i in "x"|ljust:10 %}
+                                <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary w-100 move-to-bag-btn">Move to Bag</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-wishlist">
+        <h2>Your wishlist is empty.</h2>
+        <p>Add items you love to your wishlist to keep track of them.</p>
+        <a href="{% url 'home' %}" class="btn btn-primary">Continue Shopping</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
